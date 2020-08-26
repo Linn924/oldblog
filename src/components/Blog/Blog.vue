@@ -1,0 +1,708 @@
+<template>
+    <div class="blog">
+
+        <!-- 回到顶部-->
+        <el-backtop><i class="fa fa-arrow-up"></i></el-backtop>
+        <!-- 回到顶部 end-->
+
+        <!-- 头部导航 -->
+        <header>
+            <main>
+                <nav>
+                    <a href="#">
+                        <img src="https://s1.ax1x.com/2020/05/09/YMs8DP.jpg" alt="">
+                        <span>浮光</span>
+                    </a>
+                    <ul>
+                        <li><router-link to="/content"><i class="fa fa-home" @click="reload"></i>主页</router-link></li>
+                        <li class="hide"><router-link to="/demo"><i class="el-icon-collection-tag"></i>Demo</router-link></li>
+                        <li class="hide"><router-link to="/nav"><i class="el-icon-link"></i>简约导航</router-link></li>
+                        <li class="hide"><router-link to="/home"><i class="el-icon-user"></i>个人中心</router-link></li>
+                    </ul>
+                </nav>
+                <el-input size="small" placeholder="搜索" suffix-icon="el-icon-search" v-model="value" @keyup.enter.native="enter" clearable></el-input>
+            </main>
+        </header>
+        <!-- 头部导航 end-->
+
+        <!-- 内容区域 -->
+        <main>
+            <main class="main">
+
+                <!-- 内容区域 三部分 -->
+                <div class="part">
+
+                    <!-- 左侧边栏 -->
+                    <aside class="aside-left">
+
+                        <!-- 个人简介 -->
+                        <div class="me">
+                            <header>
+                                <img src="https://s1.ax1x.com/2020/05/09/YMs8DP.jpg" alt="">
+                                <div>
+                                    <span>爱开发</span>
+                                    <span>爱学习</span>
+                                </div>
+                            </header>
+                            <main>
+                                <span>浮光</span>
+                                <span>Learner &amp; Developer</span>
+                                <span class="el-icon-location-outline">江苏 · 南京</span>
+                            </main>
+                            <footer>
+                                <header>
+                                    <div>
+                                        <span>{{total}}</span>
+                                        <span>文章</span>                                  
+                                    </div>
+                                    <div>
+                                        <span>{{sortCount}}</span>
+                                        <span>分类</span>
+                                    </div>
+                                </header>
+                                <footer>
+                                    <a href="https://gitee.com/linncode">
+                                        <el-tooltip content="码云" placement="right">
+                                            <img src="https://s1.ax1x.com/2020/05/01/JXhsfA.png" alt="">
+                                        </el-tooltip>
+                                    </a>
+                                    <a href="https://i.csdn.net/#/uc/profile">
+                                        <el-tooltip content="CSDN" placement="left">
+                                            <img src="https://s1.ax1x.com/2020/05/01/JXhclt.png" alt="">
+                                        </el-tooltip>
+                                    </a>
+                                </footer>
+                            </footer>
+                        </div>
+                        <!-- 个人简介 end-->
+
+                        <!-- 分类区域 -->
+                        <div class="sort">
+                            <span><i class="el-icon-menu"></i>分类</span>
+                            <div class="line"></div>
+                            <main>
+                                <button v-for="item in sortList" :key="item.id">{{item.sort_name}}</button>
+                            </main>
+                        </div>
+                        <!-- 分类区域 end-->
+
+                        <!-- 最近文章区域 -->
+                        <article>
+                            <span><i class="el-icon-document"></i>最近文章</span>
+                            <div class="line"></div>
+                            <nav>
+                                <ul>
+                                    <li v-for="(item,index) in blogList" :key="item.id" v-show="index < 5">
+                                        <label @click="changePath(item)">{{item.title}}</label>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </article>
+                        <!-- 最近文章区域 end-->
+
+                        <!-- 音乐播放器区域 -->
+                        <div class="song">
+                            <span><i class="fa fa-music"></i>音乐鉴赏</span>
+                            <div class="line"></div>
+                            <div class="musicBox">
+                                <img src="https://s1.ax1x.com/2020/05/16/Y6xAIJ.jpg">
+                                <div class="songMessage">
+                                    <p>{{song.author}} - {{song.name}}</p>
+                                    <div class="progress">
+                                        <div id="allTime">
+                                            <div id="nowTime"></div>
+                                        </div>
+                                        <span id="progress"></span>
+                                    </div>
+                                </div>
+                                <img src="https://s1.ax1x.com/2020/05/14/YDBMjA.png">
+                                <div :class="status ? 'audioBox finish' : 'audioBox begin'" @click="start">
+                                    <audio :src="song.path" id="audio"></audio>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 音乐播放器区域 end-->
+
+                    </aside>
+                    <!-- 左侧边栏 end-->
+
+                    <!-- 博客文章 -->
+                    <router-view ref="article"></router-view>
+                    <!-- 博客文章 end-->
+
+                    <!--右侧边栏 -->
+                    <aside class="aside-right">
+                         <!-- 分类区域 -->
+                        <div class="sort">
+                            <span><i class="el-icon-menu"></i>分类</span>
+                            <div class="line"></div>
+                            <main>
+                                <button v-for="item in sortList" :key="item.id">{{item.sort_name}}</button>
+                            </main>
+                        </div>
+                        <!-- 分类区域 end-->
+
+                        <!-- 最近文章区域 -->
+                        <article>
+                            <span><i class="el-icon-document"></i>最近文章</span>
+                            <div class="line"></div>
+                            <nav>
+                                <ul>
+                                    <li v-for="(item,index) in blogList" :key="item.id" v-show="index < 5">
+                                        <label @click="changePath(item)">{{item.title}}</label>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </article>
+                        <!-- 最近文章区域 end-->
+                    </aside>
+                    <!--右侧边栏 end -->
+                    
+
+                </div>
+                <!-- 内容区域 三部分 end-->
+            </main>
+        </main>
+        <!-- 内容区域 end -->
+        
+        <!-- 底部区域 -->
+        <footer>         
+            <main>
+                <p>© 2020 - 2021 LinnCode 版权所有</p>
+                <p>苏ICP备20023864号</p>
+            </main>
+        </footer>
+        <!-- 底部区域 end-->
+        
+    </div>
+</template>
+
+<script>
+export default {
+    data(){
+        return {
+            sortCount:0,//分类总数
+            sortList:[],//分类数据
+            blogList:[],//博客数据
+            song:{//歌曲信息
+                name:'',
+                path:'',
+                author:'',
+                img:''
+            },
+            status:false,//控制音乐播放与暂停的按钮
+            total:0,//文章总数
+            value:'',
+            queryList:{//获取博客数据传值列表
+                pagenum:1,
+                pagesize:1000
+            }
+        }
+    },
+    created() {
+        this.getSTData()//调用获取分类与标签数据
+        this.getSong()//调用获取音乐数据
+        this.getBlogData()//调用获取博客数据
+    },
+    watch: {
+        $route(to,from){//监听路由变化
+            this.showAside(to.path)
+        }
+    },
+    mounted() {
+        this.scroll()//页面滚动两侧边栏固定
+        this.songFinish()//音乐播放完时的事件
+        var path = window.location.href.split("#")[1]
+        this.showAside(path)//刷新页面是否隐藏左右两侧边栏
+    },
+    methods: {
+        //获取博客数据
+        async getBlogData(){
+            const {data:res} = await this.$http.get("blogdata",{params:this.queryList})
+            if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
+            this.blogList = res.data.reverse()
+            this.total = res.total
+        },
+        //搜索框按回车搜索文章
+        enter(){
+            this.$store.commit("setValue",this.value)
+            this.$refs.article.getBlogData()
+            this.value = ''
+        },
+        //获取分类与标签数据函数
+        async getSTData(){
+            const {data:res} = await this.$http.get("blogdatadetail")
+            if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
+            this.sortList = res.data.data1
+            this.sortCount = this.sortList.length
+        },
+        //获取网易云歌曲信息
+        async getSong(){
+            const {data:res} = await this.$http.post('https://v1.alapi.cn/api/music/search?keyword=Days&limit=10')
+            if(res.code != 200) return this.$message({message: '获取歌曲信息失败',type: 'error',duration:1000})
+            this.song.name = res.data.songs[1].name
+            this.song.path = `https://music.163.com/song/media/outer/url?id=${res.data.songs[1].id}.mp3`
+            this.song.author = res.data.songs[1].artists[0].name
+            this.song.img = res.data.songs[1].artists[0].img1v1Url
+        },
+        //点击播放歌曲
+        start(e){
+            var box = document.querySelector(".audioBox")
+            var audio = document.querySelector("#audio")
+            audio.volume = .5//播放的声音
+            e.stopPropagation() //防止冒泡
+            var that = this
+            if (audio.paused) { //如果当前是暂停状态
+                var timer = setInterval(()=>{
+                    that.getTime(audio)
+                },100)
+                this.status = true
+                audio.play() //播放
+            } else { //当前是播放状态
+                window.clearInterval(timer)
+                this.status = false
+                audio.pause() //暂停
+            }
+        },
+        //获取歌曲时长
+        getTime(audio){
+            var allTime = parseInt(audio.duration)
+            var nowTime = parseInt(audio.currentTime)
+            var speed = 100
+            document.querySelector("#allTime").style.width = speed + 'px'
+            document.querySelector("#nowTime").style.width = nowTime*speed/allTime + 'px'
+            var m1 = parseInt(allTime/60) < 10 ? '0' + parseInt(allTime/60) : parseInt(allTime/60)
+            var s1 = parseInt(allTime%60) < 10 ? '0' + parseInt(allTime%60) : parseInt(allTime%60)
+            var m2 = parseInt(nowTime/60) < 10 ? '0' + parseInt(nowTime/60) : parseInt(nowTime/60)
+            var s2 = parseInt(nowTime%60) < 10 ? '0' + parseInt(nowTime%60) : parseInt(nowTime%60)
+            document.querySelector("#progress").innerHTML = m2 + ':' + s2 + ':' + '/' + m1 + ':' + s1
+        },
+        // 音乐播放完成事件
+        songFinish(){
+            var audio = document.querySelector("#audio")
+            audio.addEventListener("ended",()=>{
+                this.status = false
+                var that = this
+                setTimeout(()=>{
+                    that.status = true
+                    audio.play()
+                },500)
+            })
+        },
+        //监听要查看的博客地址
+        changePath(item){
+            this.$store.commit('setMdname',item.mdname)
+            this.$router.push({path:`/template?${item.mdname}`})
+        },
+        //是否显示左右侧边栏
+        showAside(path){
+            var asideLeft = document.querySelector('.aside-left')
+            var asideRight = document.querySelector('.aside-right')
+            if(path === '/album' || path === '/demo'){
+                asideLeft.style.display = 'none' 
+                asideRight.style.display = 'none'
+            }else{
+                asideLeft.style.display = 'block' 
+                asideRight.style.display = 'block'
+            }
+        },
+        // 屏幕滚动事件
+        scroll(){
+            var asideLeft = document.querySelector(".aside-left")//左侧边栏
+            var asideRight = document.querySelector(".aside-right")//右侧边栏
+            var height = document.querySelector(".main").offsetTop//main到顶部的距离
+            document.addEventListener("scroll",() =>{
+                if(window.pageYOffset >= height && document.documentElement.clientWidth >=1430){
+                    asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
+                    asideRight.style.paddingTop = (window.pageYOffset - height) + 'px'
+                }else if(window.pageYOffset >= height && document.documentElement.clientWidth <1430){
+                    asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
+                }else{
+                    asideLeft.style.paddingTop = 0 
+                    asideRight.style.paddingTop = 0
+                }
+            })
+        },
+        //调用子组件方法
+        reload(){
+            this.$refs.article.getDataAgain()
+        }
+    }
+}
+</script>
+
+<style lang="less" scoped>
+@import '../../assets/css/blog.css';
+.blog{
+    display: flex;
+    flex-direction: column;
+    background: url(https://s1.ax1x.com/2020/05/28/te3Z79.jpg) no-repeat;
+    background-attachment:fixed;
+    background-size: 100% 100%;
+    width: 100%;
+    min-height: 100vh;
+    >header{
+        min-height: 60px;
+        background-color: rgba(23,23,23, .6);
+    }
+    >main{
+        padding: 2vh 0;
+        .main{
+            width: 80vw;
+            margin: 0 auto;
+        }
+    }
+    >footer{
+        box-sizing: border-box;
+        padding-top: 2vh;
+        background-color: rgba(23,23,23, .6);
+    }
+    .el-backtop{
+        bottom: 20px!important;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+        color: white;
+    }
+}
+.blog>header{
+    main{
+        width: 80vw;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        margin: 0 auto;
+        nav{
+            display: flex;
+            >a{
+                display: flex;
+                align-items: center;
+                margin-right: 2vw;
+                &:hover span{color: #1E90FF;}
+                img{
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    margin-right: 20px;
+                }
+                span{
+                    color: white;
+                    font-size: 20px;
+                    transition: color .5s; 
+                }
+            }
+            ul{
+                display: flex;
+                list-style: none;
+                line-height: 60px;
+                li{
+                    margin-right: 20px;
+                    a{
+                        color: #fff;
+                        transition: color .5s;
+                        &:hover{color: #1E90FF!important;}
+                        font-size: 15px;
+                        >i{margin-right: 2px;}
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+.blog>header .el-input{
+    width: 180px!important;
+    margin-left:auto;
+}
+.blog>main{
+    .part{
+        display: flex;
+        position: relative;
+        aside:first-child{
+            width: 320px;
+            .me{
+                min-height: 360px;
+                padding: 20px 0 0 0;
+                background-color: rgba(255, 255, 255, 0.4);
+                border-radius: 8px;
+                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
+                transition: box-shadow .5s;
+                margin-bottom: 10px;
+                >header{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100px;
+                    img{
+                        width: 100px;
+                        height: 100px;
+                        margin-right: 40px;
+                        border-radius: 3px;
+                    }
+                    div{
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                        color: #fff;
+                        font-size: 14px;
+                        span:nth-child(2){margin: 10px 0;}
+                    }
+                }
+                main{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 20px 0;
+                    span{
+                        margin-bottom: 8px;
+                        color: #fff;
+                        &:first-child{color: #000;font-size: 18px;}
+                        &:nth-child(3){
+                            margin-bottom: 20px;
+                            color: #fff;
+                            font-size: 14px;
+                        }
+                    }
+                }
+                >footer{
+                    header{
+                        display: flex;
+                        border-top: 1px solid #ECEFF2;
+                        border-bottom: 1px solid #ECEFF2;
+                        div{
+                            width: 50%;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            &:first-child{border-right: 1px solid #ECEFF2;}
+                            span{font-size: 16px;margin-bottom: 8px;}
+                        }
+                    }
+                    footer{
+                        display: flex;
+                        justify-content: space-around;
+                        margin-top: 20px;
+                        img{width: 30px;height: 30px;}
+                    }
+                }
+            }
+            .sort{
+                display: none;
+                background-color: rgba(255, 255, 255, 0.4);
+                border-radius: 8px;
+                width: 100%;
+                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
+                box-sizing: border-box;
+                padding: 10px 10px 0 10px;
+                margin-bottom: 10px;
+                span>i{margin-right: 5px;}
+                .line{border: 1px solid #70A1FF;margin: 10px 0;}
+                main{
+                    display: flex;
+                    flex-flow: row wrap;
+                    justify-content: space-between;
+                    align-content: space-around;
+                    min-height: 12vh;
+                    padding-bottom: 10px;
+                    button{
+                        padding: 5px 10px;
+                        border-radius: 3px;
+                        border: 1px solid #e74c3c;
+                        background-color: rgba(231,76,60,.125);
+                        color: #e74c3c;
+                        font-size: 16px;
+                        cursor: pointer;
+                        &:nth-child(2n+1){
+                             border: 1px solid #f1c40f;
+                             background-color: rgba(241,196,15,.125);
+                             color: #f1c40f;
+                        }
+                        &:nth-child(3n){
+                             border: 1px solid #2ecc71;
+                             background-color: rgba(46,204,113,.125);
+                             color: #2ecc71;
+                        }
+                    }
+
+                }
+            }
+            article{
+                display: none;
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 8px;
+                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
+                box-sizing: border-box;
+                padding: 10px 10px 0 10px;
+                margin-bottom: 10px;
+                transition: all .5s;
+                span>i{margin-right: 5px;}
+                .line{border: 1px solid #70A1FF;margin-top: 10px;}
+                nav{
+                    li{
+                        list-style: none;
+                        line-height: 30px;
+                        border-bottom: 1px solid #ccc;
+                        font-size: 14px;
+                        &:nth-child(5){border: 0;}
+                        label{
+                            transition: color .5s;
+                            cursor: pointer;
+                            &:hover{color: #6c5ce7;}
+                        }
+                    }
+                }  
+            }
+            .song{
+                border-radius: 8px;
+                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
+                box-sizing: border-box;
+                padding: 10px 10px;
+                background-color: rgba(255, 255, 255, 0.5);
+                transition: all .5s;
+                span>i{margin-right: 5px;}
+                .line{border: 1px solid #70A1FF;margin: 10px 0;}
+                .musicBox{
+                    height: 80px;
+                    background-color: white;
+                    position: relative;
+                    display: flex;
+                    border-radius: 5px;
+                    .songMessage{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
+                        padding: 0 10px;
+                        p{font-size:16px;color: #888;}
+                        .progress{
+                            display: flex;
+                            align-items: center;
+                            #allTime{
+                                background-color:rgb(220,220,220);
+                                height:2px;
+                                #nowTime{background-color:#70A1FF;height:2px;}
+                            }
+                            span{font-size: 12px;margin-left: 5px;}
+                        }
+                    }
+                    .audioBox{
+                        position: absolute;
+                        top: 50%;
+                        left: 25px;
+                        width: 30px;
+                        height: 30px;
+                        transform: translateY(-50%);
+                        cursor: pointer;
+                        z-index: 999;
+                    }
+                }
+            }
+        }
+        >article{ 
+            flex: 1;
+            margin: 0 10px;
+        }
+        aside:last-child{
+            width: 320px;
+            .sort{
+                background-color: rgba(255, 255, 255, 0.4);
+                border-radius: 8px;
+                width: 100%;
+                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
+                box-sizing: border-box;
+                padding: 10px 10px 0 10px;
+                transition: all .5s;
+                span>i{margin-right: 5px;}
+                .line{border: 1px solid #70A1FF;margin: 10px 0;}
+                main{
+                    display: flex;
+                    flex-flow: row wrap;
+                    justify-content: space-between;
+                    align-content: space-around;
+                    min-height: 12vh;
+                    padding-bottom: 10px;
+                    button{
+                        padding: 5px 10px;
+                        border-radius: 3px;
+                        border: 1px solid #e74c3c;
+                        background-color: rgba(231,76,60,.125);
+                        color: #e74c3c;
+                        font-size: 16px;
+                        cursor: pointer;
+                        &:nth-child(2n+1){
+                             border: 1px solid #f1c40f;
+                             background-color: rgba(241,196,15,.125);
+                             color: #f1c40f;
+                        }
+                        &:nth-child(3n){
+                             border: 1px solid #2ecc71;
+                             background-color: rgba(46,204,113,.125);
+                             color: #2ecc71;
+                        }
+                    }
+
+                }
+            }
+            article{
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 8px;
+                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
+                box-sizing: border-box;
+                padding: 10px 10px 0 10px;
+                margin: 10px 0;
+                transition: all .5s;
+                span>i{margin-right: 5px;}
+                .line{border: 1px solid #70A1FF;margin-top: 10px;}
+                nav{
+                    li{
+                        list-style: none;
+                        line-height: 30px;
+                        border-bottom: 1px solid #ccc;
+                        font-size: 14px;
+                        &:nth-child(5){border: 0;}
+                        label{
+                            transition: color .5s;
+                            cursor: pointer;
+                            &:hover{color: #6c5ce7;}
+                        }
+                    }
+                }  
+            }
+        }  
+    }
+}
+.blog>footer{
+    display: flex;
+    justify-content: center;
+    main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; 
+        p{
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: white;
+        }  
+    }
+}
+.musicBox img:first-child{
+    width: 80px;
+    height:80px;
+    border-radius: 5px 0 0 5px;
+}
+.musicBox img:nth-child(3){
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+}
+.finish{
+    background-image: url('https://s1.ax1x.com/2020/05/14/YDBKcd.png');
+    background-size: 30px 30px!important;
+}
+.begin{
+    background-image: url('https://s1.ax1x.com/2020/05/14/YDBu1H.png');
+    background-size: 30px 30px!important;
+}
+</style>

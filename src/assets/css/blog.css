@@ -1,0 +1,72 @@
+@media screen and (max-width: 375px) {
+  .blog>header li.disappear {
+    display: none!important;
+  }
+  .blog>header .el-input{
+    width: 100px!important;
+  }
+  .blog{
+    background: url(https://s1.ax1x.com/2020/05/17/YRMQyt.jpg) no-repeat center !important;
+    background-attachment:fixed !important;
+  }
+}
+@media screen and (max-width: 600px) {
+  .blog>header li {
+    font-size: 12px!important;
+  }
+  .blog .partOne main {
+    display: none !important;
+  }
+  .blog .partOne>footer span {
+    font-size: 14px !important;
+  }
+}
+@media screen and (max-width: 700px) {
+  .blog>header li {
+    padding: 0 10px !important;
+  }
+}
+@media screen and (max-width: 870px) {
+  .blog > header a {
+    margin-right: 0 !important;
+  }
+  .blog > header img {
+    margin-right: 0 !important;
+  }
+  /* .blog>main .main .partOne {
+    display: flex!important;
+  } */
+  
+}
+@media screen and (max-width: 950px) {
+  .blog>main .part {
+    margin-top: 10px !important;
+  }
+  .blog>main .part aside:first-child {
+    display: none !important;
+  }
+  .blog>main .part article {
+    margin-left: 0 !important;
+  }
+}
+@media screen and (max-width: 1080px) {
+    .blog>header a span {
+      display: none !important;
+    }
+    
+
+}
+@media screen and (max-width: 1430px) {
+  .blog>main .part aside:last-child {
+    display: none!important;
+  }
+  .blog>main .part aside:first-child .sort {
+    display: block!important;
+  }
+  .blog>main .part article {
+    margin-right: 0!important;
+  }
+  .blog > main .part aside:first-child article {
+    display: block !important;
+  }
+}
