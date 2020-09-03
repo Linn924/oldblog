@@ -144,25 +144,25 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
     #index{
         width: 100%;
         height: 100vh;
         position: relative;
         overflow: hidden;
-    }
-    #index>img{
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        transform: scale(1.6);
-        animation: img 1s ease-out forwards;
-        transition: all .5s;
-    }
-    #index>section{
-        width: 100%;
-        position: relative;
-        transition: all .5s;
+        >section{
+            width: 100%;
+            position: relative;
+            transition: all .5s;
+        }
+        >img{
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            transform: scale(1.6);
+            animation: img 1s ease-out forwards;
+            transition: all .5s;
+        }
     }
     .bg{
         position: relative;
@@ -171,58 +171,58 @@ export default {
         cursor: pointer;
         /* 文本无法被选中 */
         -webkit-user-select: none;
-    }
-    .bg>h1{
-        position: absolute;
-        top: 60%;
-        left: 50%;
-        transform: translateX(-50%);
-        letter-spacing: 5px;
-        color: #fff;
-        font-size: 100px;
-        font-weight: 100;
-        z-index: 1;
-        opacity: 0;
-        animation: bg_h1 .5s ease-out forwards;
-    }
-    .bg>p{
-        position: absolute;
-        top: 70%;
-        left: 50%;
-        transform: translateX(-50%);
-        letter-spacing: 5px;
-        color: #fff;
-        font-size: 20px;
-        font-weight: 100;
-        z-index: 1;
-        opacity: 0;
-        animation: bg_p .5s ease-out forwards .3s;
-    }
-    .bg>h5{
-        position: absolute;
-        top: 1%;
-        left: 50%;
-        transform: translateX(-50%);
-        letter-spacing: 5px;
-        color: #fff;
-        font-size: 10px;
-        font-weight: 100;
-        z-index: 1;
-        opacity: 0;
-        animation: bg_h5 .3s ease-out forwards .6s;
-    }
-    .bg>h6{
-        position: absolute;
-        top: 80%;
-        left: 50%;
-        transform: translateX(-50%);
-        letter-spacing: 5px;
-        color: #fff;
-        font-size: 10px;
-        font-weight: 100;
-        z-index: 1;
-        opacity: 0;
-        animation: bg_h6 .3s ease-out forwards .6s;
+        >h1{
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            letter-spacing: 5px;
+            color: #fff;
+            font-size: 100px;
+            font-weight: 100;
+            z-index: 1;
+            opacity: 0;
+            animation: bg_h1 .5s ease-out forwards;
+        }
+        >p{
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+            letter-spacing: 5px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 100;
+            z-index: 1;
+            opacity: 0;
+            animation: bg_p .5s ease-out forwards .3s;
+        }
+        >h5{
+            position: absolute;
+            top: 1%;
+            left: 50%;
+            transform: translateX(-50%);
+            letter-spacing: 5px;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 100;
+            z-index: 1;
+            opacity: 0;
+            animation: bg_h5 .3s ease-out forwards .6s;
+        }
+        >h6{
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            letter-spacing: 5px;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 100;
+            z-index: 1;
+            opacity: 0;
+            animation: bg_h6 .3s ease-out forwards .6s;
+        }
     }
     .bg i:nth-child(4){
         z-index: 1;
@@ -329,41 +329,41 @@ export default {
         align-items: center;
         flex-flow: row wrap;
         color: #fff;
-    }
-    .container .con{
-        background-color: rgba(255,255,255,0.1);
-        border-radius: 20px;
-        /* 毛玻璃背景效果 */
-        backdrop-filter: blur(15px);
-        /* 网格布局 */
-        display: grid;
-        /* 设置四列两行 */
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        grid-row: gap 20px;
-        grid-column-gap: 20px;
-        padding: 20px;
-    }
-    .container .box{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        border: 1px solid rgba(255,255,255,0);
-        transform: border .5s;
-        cursor: pointer;
+        .con{
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            /* 毛玻璃背景效果 */
+            backdrop-filter: blur(15px);
+            /* 网格布局 */
+            display: grid;
+            /* 设置四列两行 */
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-row: gap 20px;
+            grid-column-gap: 20px;
+            padding: 20px; 
+        }
+        .box{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0);
+            transform: border .5s;
+            cursor: pointer;
+        }
+        .content{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
     }
     .container .box:hover{
         border: 1px solid rgba(255,255,255,1);
         transform: border .5s;
-    }
-    .container .content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
     }
     .container a img{
         width: 100px;
