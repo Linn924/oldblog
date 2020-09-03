@@ -58,18 +58,10 @@
                     <div class="box">
                         <div class="content">
                             <router-link to="/link">
-                                <img src="../assets/image/setting.png" alt="">
+                                <img src="../assets/image/complete.png" alt="">
                             </router-link>
                         </div>
-                        <p>设置中心</p>
-                    </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/link">
-                                <img src="../assets/image/message.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>留言板</p>
+                        <p>完整样本</p>
                     </div>
                     <div class="box">
                         <div class="content">
@@ -82,10 +74,18 @@
                     <div class="box">
                         <div class="content">
                             <router-link to="/link">
-                                <img src="../assets/image/complete.png" alt="">
+                                <img src="../assets/image/message.png" alt="">
                             </router-link>
                         </div>
-                        <p>完整样本</p>
+                        <p>留言板</p>
+                    </div>
+                    <div class="box">
+                        <div class="content">
+                            <router-link to="/link">
+                                <img src="../assets/image/setting.png" alt="">
+                            </router-link>
+                        </div>
+                        <p>设置中心</p>
                     </div>
                 </div>
             </div>
@@ -117,11 +117,10 @@ export default {
         var t = new Date()
         var h = t.getHours() > 9 ? t.getHours() : '0' + t.getHours()
         var m = t.getMinutes() > 9 ? t.getMinutes() : '0' + t.getMinutes()
-        var s = t.getSeconds() > 9 ? t.getSeconds() : '0' + t.getSeconds()
         var Y = t.getFullYear()
         var M = t.getMonth() + 1
         var D = t.getDate()
-        this.time = h + ':' + m + ':' + s
+        this.time = h + ':' + m
         this.date = Y + '年' + M + '月' + D + '日'
     },
     //点击屏幕进入下半部分
