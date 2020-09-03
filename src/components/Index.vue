@@ -179,7 +179,7 @@ export default {
             letter-spacing: 5px;
             color: #fff;
             font-size: 100px;
-            font-weight: 100;
+            font-weight: 400;
             z-index: 1;
             opacity: 0;
             animation: bg_h1 .5s ease-out forwards;
@@ -192,7 +192,7 @@ export default {
             letter-spacing: 5px;
             color: #fff;
             font-size: 20px;
-            font-weight: 100;
+            font-weight: 300;
             z-index: 1;
             opacity: 0;
             animation: bg_p .5s ease-out forwards .3s;
