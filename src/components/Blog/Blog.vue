@@ -9,9 +9,9 @@
         <header>
             <main>
                 <nav>
-                    <a href="#">
-                        <img src="https://s1.ax1x.com/2020/05/09/YMs8DP.jpg" alt="">
-                        <span>浮光</span>
+                    <a href="javascript:void(0);">
+                        <img src="https://s1.ax1x.com/2020/09/04/wkxl9K.jpg" alt="">
+                        <span>Smion</span>
                     </a>
                     <ul>
                         <li><router-link to="/content"><i class="fa fa-home" @click="reload"></i>主页</router-link></li>
@@ -38,14 +38,14 @@
                         <!-- 个人简介 -->
                         <div class="me">
                             <header>
-                                <img src="https://s1.ax1x.com/2020/05/09/YMs8DP.jpg" alt="">
+                                <img src="https://s1.ax1x.com/2020/09/04/wkxl9K.jpg" alt="">
                                 <div>
                                     <span>爱开发</span>
                                     <span>爱学习</span>
                                 </div>
                             </header>
                             <main>
-                                <span>浮光</span>
+                                <span>Simon</span>
                                 <span>Learner &amp; Developer</span>
                                 <span class="el-icon-location-outline">江苏 · 南京</span>
                             </main>
@@ -61,12 +61,12 @@
                                     </div>
                                 </header>
                                 <footer>
-                                    <a href="https://gitee.com/linncode">
-                                        <el-tooltip content="码云" placement="right">
-                                            <img src="https://s1.ax1x.com/2020/05/01/JXhsfA.png" alt="">
+                                    <a href="https://github.com/Linn924">
+                                        <el-tooltip content="GitHub" placement="right">
+                                            <img src="https://infinityicon.infinitynewtab.com/user-share-icon/a23b4cf17327527ae66aad5d13f059da.png" alt="">
                                         </el-tooltip>
                                     </a>
-                                    <a href="https://i.csdn.net/#/uc/profile">
+                                    <a href="https://mp.csdn.net/console/article">
                                         <el-tooltip content="CSDN" placement="left">
                                             <img src="https://s1.ax1x.com/2020/05/01/JXhclt.png" alt="">
                                         </el-tooltip>
@@ -99,29 +99,6 @@
                             </nav>
                         </article>
                         <!-- 最近文章区域 end-->
-
-                        <!-- 音乐播放器区域 -->
-                        <div class="song">
-                            <span><i class="fa fa-music"></i>音乐鉴赏</span>
-                            <div class="line"></div>
-                            <div class="musicBox">
-                                <img src="https://s1.ax1x.com/2020/05/16/Y6xAIJ.jpg">
-                                <div class="songMessage">
-                                    <p>{{song.author}} - {{song.name}}</p>
-                                    <div class="progress">
-                                        <div id="allTime">
-                                            <div id="nowTime"></div>
-                                        </div>
-                                        <span id="progress"></span>
-                                    </div>
-                                </div>
-                                <img src="https://s1.ax1x.com/2020/05/14/YDBMjA.png">
-                                <div :class="status ? 'audioBox finish' : 'audioBox begin'" @click="start">
-                                    <audio :src="song.path" id="audio"></audio>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 音乐播放器区域 end-->
 
                     </aside>
                     <!-- 左侧边栏 end-->
@@ -184,13 +161,6 @@ export default {
             sortCount:0,//分类总数
             sortList:[],//分类数据
             blogList:[],//博客数据
-            song:{//歌曲信息
-                name:'',
-                path:'',
-                author:'',
-                img:''
-            },
-            status:false,//控制音乐播放与暂停的按钮
             total:0,//文章总数
             value:'',
             queryList:{//获取博客数据传值列表
@@ -201,7 +171,6 @@ export default {
     },
     created() {
         this.getSTData()//调用获取分类与标签数据
-        this.getSong()//调用获取音乐数据
         this.getBlogData()//调用获取博客数据
     },
     watch: {
@@ -210,8 +179,7 @@ export default {
         }
     },
     mounted() {
-        this.scroll()//页面滚动两侧边栏固定
-        this.songFinish()//音乐播放完时的事件
+        // this.scroll()//页面滚动两侧边栏固定
         var path = window.location.href.split("#")[1]
         this.showAside(path)//刷新页面是否隐藏左右两侧边栏
     },
@@ -236,59 +204,6 @@ export default {
             this.sortList = res.data.data1
             this.sortCount = this.sortList.length
         },
-        //获取网易云歌曲信息
-        async getSong(){
-            const {data:res} = await this.$http.post('https://v1.alapi.cn/api/music/search?keyword=Days&limit=10')
-            if(res.code != 200) return this.$message({message: '获取歌曲信息失败',type: 'error',duration:1000})
-            this.song.name = res.data.songs[1].name
-            this.song.path = `https://music.163.com/song/media/outer/url?id=${res.data.songs[1].id}.mp3`
-            this.song.author = res.data.songs[1].artists[0].name
-            this.song.img = res.data.songs[1].artists[0].img1v1Url
-        },
-        //点击播放歌曲
-        start(e){
-            var box = document.querySelector(".audioBox")
-            var audio = document.querySelector("#audio")
-            audio.volume = .5//播放的声音
-            e.stopPropagation() //防止冒泡
-            var that = this
-            if (audio.paused) { //如果当前是暂停状态
-                var timer = setInterval(()=>{
-                    that.getTime(audio)
-                },100)
-                this.status = true
-                audio.play() //播放
-            } else { //当前是播放状态
-                window.clearInterval(timer)
-                this.status = false
-                audio.pause() //暂停
-            }
-        },
-        //获取歌曲时长
-        getTime(audio){
-            var allTime = parseInt(audio.duration)
-            var nowTime = parseInt(audio.currentTime)
-            var speed = 100
-            document.querySelector("#allTime").style.width = speed + 'px'
-            document.querySelector("#nowTime").style.width = nowTime*speed/allTime + 'px'
-            var m1 = parseInt(allTime/60) < 10 ? '0' + parseInt(allTime/60) : parseInt(allTime/60)
-            var s1 = parseInt(allTime%60) < 10 ? '0' + parseInt(allTime%60) : parseInt(allTime%60)
-            var m2 = parseInt(nowTime/60) < 10 ? '0' + parseInt(nowTime/60) : parseInt(nowTime/60)
-            var s2 = parseInt(nowTime%60) < 10 ? '0' + parseInt(nowTime%60) : parseInt(nowTime%60)
-            document.querySelector("#progress").innerHTML = m2 + ':' + s2 + ':' + '/' + m1 + ':' + s1
-        },
-        // 音乐播放完成事件
-        songFinish(){
-            var audio = document.querySelector("#audio")
-            audio.addEventListener("ended",()=>{
-                this.status = false
-                var that = this
-                setTimeout(()=>{
-                    that.status = true
-                    audio.play()
-                },500)
-            })
-        },
         //监听要查看的博客地址
         changePath(item){
             this.$store.commit('setMdname',item.mdname)
@@ -307,22 +222,22 @@ export default {
             }
         },
         // 屏幕滚动事件
-        scroll(){
-            var asideLeft = document.querySelector(".aside-left")//左侧边栏
-            var asideRight = document.querySelector(".aside-right")//右侧边栏
-            var height = document.querySelector(".main").offsetTop//main到顶部的距离
-            document.addEventListener("scroll",() =>{
-                if(window.pageYOffset >= height && document.documentElement.clientWidth >=1430){
-                    asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
-                    asideRight.style.paddingTop = (window.pageYOffset - height) + 'px'
-                }else if(window.pageYOffset >= height && document.documentElement.clientWidth <1430){
-                    asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
-                }else{
-                    asideLeft.style.paddingTop = 0 
-                    asideRight.style.paddingTop = 0
-                }
-            })
-        },
+        // scroll(){
+        //     var asideLeft = document.querySelector(".aside-left")//左侧边栏
+        //     var asideRight = document.querySelector(".aside-right")//右侧边栏
+        //     var height = document.querySelector(".main").offsetTop//main到顶部的距离
+        //     document.addEventListener("scroll",() =>{
+        //         if(window.pageYOffset >= height && document.documentElement.clientWidth >=1430){
+        //             asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
+        //             asideRight.style.paddingTop = (window.pageYOffset - height) + 'px'
+        //         }else if(window.pageYOffset >= height && document.documentElement.clientWidth <1430){
+        //             asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
+        //         }else{
+        //             asideLeft.style.paddingTop = 0 
+        //             asideRight.style.paddingTop = 0
+        //         }
+        //     })
+        // },
         //调用子组件方法
         reload(){
             this.$refs.article.getDataAgain()
@@ -482,7 +397,7 @@ export default {
                         display: flex;
                         justify-content: space-around;
                         margin-top: 20px;
-                        img{width: 30px;height: 30px;}
+                        img{width: 30px;height: 30px;border-radius: 50%;}
                     }
                 }
             }
@@ -551,50 +466,6 @@ export default {
                         }
                     }
                 }  
-            }
-            .song{
-                border-radius: 8px;
-                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
-                box-sizing: border-box;
-                padding: 10px 10px;
-                background-color: rgba(255, 255, 255, 0.5);
-                transition: all .5s;
-                span>i{margin-right: 5px;}
-                .line{border: 1px solid #70A1FF;margin: 10px 0;}
-                .musicBox{
-                    height: 80px;
-                    background-color: white;
-                    position: relative;
-                    display: flex;
-                    border-radius: 5px;
-                    .songMessage{
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-around;
-                        padding: 0 10px;
-                        p{font-size:16px;color: #888;}
-                        .progress{
-                            display: flex;
-                            align-items: center;
-                            #allTime{
-                                background-color:rgb(220,220,220);
-                                height:2px;
-                                #nowTime{background-color:#70A1FF;height:2px;}
-                            }
-                            span{font-size: 12px;margin-left: 5px;}
-                        }
-                    }
-                    .audioBox{
-                        position: absolute;
-                        top: 50%;
-                        left: 25px;
-                        width: 30px;
-                        height: 30px;
-                        transform: translateY(-50%);
-                        cursor: pointer;
-                        z-index: 999;
-                    }
-                }
             }
         }
         >article{ 
@@ -684,25 +555,5 @@ export default {
             color: white;
         }  
     }
-}
-.musicBox img:first-child{
-    width: 80px;
-    height:80px;
-    border-radius: 5px 0 0 5px;
-}
-.musicBox img:nth-child(3){
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-}
-.finish{
-    background-image: url('https://s1.ax1x.com/2020/05/14/YDBKcd.png');
-    background-size: 30px 30px!important;
-}
-.begin{
-    background-image: url('https://s1.ax1x.com/2020/05/14/YDBu1H.png');
-    background-size: 30px 30px!important;
 }
 </style>

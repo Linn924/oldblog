@@ -1,97 +1,97 @@
 <template>
   <div id="index">
-        <img src="../assets/image/index.jpeg" alt="" :class="imgAnimate ? 'imgAnimateLast' : 'imgAnimateFirst'">
+    <img src="../assets/image/index.jpeg" alt="" :class="imgAnimate ? 'imgAnimateLast' : 'imgAnimateFirst'">
 
-        <!-- 内容模块 -->
-        <section :class="sectionAnimate ? 'sectionAnimateLast' : 'sectionAnimateFirst'">
+    <!-- 内容模块 -->
+    <section :class="sectionAnimate ? 'sectionAnimateLast' : 'sectionAnimateFirst'">
 
-            <!-- 首页模块 -->
-            <div class="bg" @click="bg_click">
-                <h1>{{time}}</h1>
-                <p>{{date}}</p>
-                <h5>Design By Simon</h5>
-                <i class="fa fa-angle-down fa-3x" aria-hidden="true"></i>
-                <i class="fa fa-angle-down fa-3x" aria-hidden="true"></i>
-                <h6>点击屏幕以进入</h6>
-            </div>
+        <!-- 首页模块 -->
+        <div class="bg" @click="bg_click">
+            <h1>{{time}}</h1>
+            <p>{{date}}</p>
+            <h5>Design By Simon</h5>
+            <i class="fa fa-angle-down fa-3x" aria-hidden="true"></i>
+            <i class="fa fa-angle-down fa-3x" aria-hidden="true"></i>
+            <h6>点击屏幕以进入</h6>
+        </div>
 
-            <div class="up" @click="up_click">
-                <i class="fa fa-angle-up fa-3x" aria-hidden="true"></i>
-                <i class="fa fa-angle-up fa-3x" aria-hidden="true"></i>
-            </div>
+        <div class="up" @click="up_click">
+            <i class="fa fa-angle-up fa-3x" aria-hidden="true"></i>
+            <i class="fa fa-angle-up fa-3x" aria-hidden="true"></i>
+        </div>
 
-            <!-- 功能模块 -->
-            <div class="container">
-                <div class="con">
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/blog">
-                                <img src="../assets/image/blog.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>个人博客</p>
+        <!-- 功能模块 -->
+        <div class="container">
+            <div class="con">
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/blog">
+                            <img src="../assets/image/blog.png" alt="">
+                        </router-link>
                     </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/link">
-                                <img src="../assets/image/nav.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>简约导航</p>
+                    <p>个人博客</p>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/link">
+                            <img src="../assets/image/nav.png" alt="">
+                        </router-link>
                     </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/home">
-                                <img src="../assets/image/home.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>个人中心</p>
+                    <p>简约导航</p>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/home">
+                            <img src="../assets/image/home.png" alt="">
+                        </router-link>
                     </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/life">
-                                <img src="../assets/image/life.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>生活乐趣</p>
+                    <p>个人中心</p>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/life">
+                            <img src="../assets/image/life.png" alt="">
+                        </router-link>
                     </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/link">
-                                <img src="../assets/image/complete.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>完整样本</p>
+                    <p>生活乐趣</p>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/link">
+                            <img src="../assets/image/complete.png" alt="">
+                        </router-link>
                     </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/link">
-                                <img src="../assets/image/effect.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>效果样板</p>
+                    <p>完整样本</p>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/link">
+                            <img src="../assets/image/effect.png" alt="">
+                        </router-link>
                     </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/link">
-                                <img src="../assets/image/message.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>留言板</p>
+                    <p>效果样板</p>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/link">
+                            <img src="../assets/image/message.png" alt="">
+                        </router-link>
                     </div>
-                    <div class="box">
-                        <div class="content">
-                            <router-link to="/link">
-                                <img src="../assets/image/setting.png" alt="">
-                            </router-link>
-                        </div>
-                        <p>设置中心</p>
+                    <p>留言板</p>
+                </div>
+                <div class="box">
+                    <div class="content">
+                        <router-link to="/link">
+                            <img src="../assets/image/setting.png" alt="">
+                        </router-link>
                     </div>
+                    <p>设置中心</p>
                 </div>
             </div>
+        </div>
 
-        </section>
-    </div>
+    </section>
+  </div>
 </template>
 
 <script>

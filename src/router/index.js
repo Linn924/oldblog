@@ -29,7 +29,7 @@ const Message = () => import( /* webpackChunkName: "nav_link_message" */ '../com
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', redirect: '/index' },
+  { path: '/', redirect: '/blog' },
   { path: '/index', component: Index },
   { path: '/home', component: Home },
   { path: '/login', component: Login },
