@@ -3,7 +3,6 @@
 
         <!-- 回到顶部-->
         <el-backtop><i class="fa fa-arrow-up"></i></el-backtop>
-        <!-- 回到顶部 end-->
 
         <!-- 头部导航 -->
         <header>
@@ -23,7 +22,6 @@
                 <el-input size="small" placeholder="搜索" suffix-icon="el-icon-search" v-model="value" @keyup.enter.native="enter" clearable></el-input>
             </main>
         </header>
-        <!-- 头部导航 end-->
 
         <!-- 内容区域 -->
         <main>
@@ -74,7 +72,6 @@
                                 </footer>
                             </footer>
                         </div>
-                        <!-- 个人简介 end-->
 
                         <!-- 分类区域 -->
                         <div class="sort">
@@ -84,7 +81,6 @@
                                 <button v-for="item in sortList" :key="item.id">{{item.sort_name}}</button>
                             </main>
                         </div>
-                        <!-- 分类区域 end-->
 
                         <!-- 最近文章区域 -->
                         <article>
@@ -98,14 +94,12 @@
                                 </ul>
                             </nav>
                         </article>
-                        <!-- 最近文章区域 end-->
 
                     </aside>
                     <!-- 左侧边栏 end-->
 
                     <!-- 博客文章 -->
                     <router-view ref="article"></router-view>
-                    <!-- 博客文章 end-->
 
                     <!--右侧边栏 -->
                     <aside class="aside-right">
@@ -117,7 +111,6 @@
                                 <button v-for="item in sortList" :key="item.id">{{item.sort_name}}</button>
                             </main>
                         </div>
-                        <!-- 分类区域 end-->
 
                         <!-- 最近文章区域 -->
                         <article>
@@ -131,16 +124,13 @@
                                 </ul>
                             </nav>
                         </article>
-                        <!-- 最近文章区域 end-->
-                    </aside>
-                    <!--右侧边栏 end -->
-                    
+
+                    </aside>  
 
                 </div>
-                <!-- 内容区域 三部分 end-->
+
             </main>
         </main>
-        <!-- 内容区域 end -->
         
         <!-- 底部区域 -->
         <footer>         
@@ -149,7 +139,6 @@
                 <p>苏ICP备20023864号</p>
             </main>
         </footer>
-        <!-- 底部区域 end-->
         
     </div>
 </template>
@@ -221,23 +210,6 @@ export default {
                 asideRight.style.display = 'block'
             }
         },
-        // 屏幕滚动事件
-        // scroll(){
-        //     var asideLeft = document.querySelector(".aside-left")//左侧边栏
-        //     var asideRight = document.querySelector(".aside-right")//右侧边栏
-        //     var height = document.querySelector(".main").offsetTop//main到顶部的距离
-        //     document.addEventListener("scroll",() =>{
-        //         if(window.pageYOffset >= height && document.documentElement.clientWidth >=1430){
-        //             asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
-        //             asideRight.style.paddingTop = (window.pageYOffset - height) + 'px'
-        //         }else if(window.pageYOffset >= height && document.documentElement.clientWidth <1430){
-        //             asideLeft.style.paddingTop = (window.pageYOffset - height) + 'px'
-        //         }else{
-        //             asideLeft.style.paddingTop = 0 
-        //             asideRight.style.paddingTop = 0
-        //         }
-        //     })
-        // },
         //调用子组件方法
         reload(){
             this.$refs.article.getDataAgain()
