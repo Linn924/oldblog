@@ -5,7 +5,7 @@
             <div v-html="html" v-highlight class="markdown-body md"></div>
             <span>转载请标注转载地址</span>
         </article>
-        <!-- 展示博客 end-->
+
     </article>
 </template>
 
