@@ -38,35 +38,35 @@
   } */
   
 }
-@media screen and (max-width: 950px) {
-  .blog>main .part {
+/* @media screen and (max-width: 950px) {
+  .blog>main section {
     margin-top: 10px !important;
   }
-  .blog>main .part aside:first-child {
+  .blog>main section aside:first-child {
     display: none !important;
   }
-  .blog>main .part article {
+  .blog>main section article {
     margin-left: 0 !important;
   }
-}
-@media screen and (max-width: 1080px) {
-    .blog>header a span {
-      display: none !important;
-    }
-    
-
-}
-@media screen and (max-width: 1430px) {
-  .blog>main .part aside:last-child {
+} */
+@media screen and (max-width: 1200px) {
+  .blog>main section{
+    grid-template-columns: 1fr!important;
+  }
+  .blog>main section aside {
     display: none!important;
   }
-  .blog>main .part aside:first-child .sort {
-    display: block!important;
+}
+@media screen and (max-width: 1620px) {
+  .blog>main section{
+    grid-template-columns: 2.8fr 7fr!important;
+    grid-template-rows: 350px minmax(500px,750px) auto!important;
+    row-gap: 10px!important;
   }
-  .blog>main .part article {
-    margin-right: 0!important;
+  .blog>main section aside:last-child {
+    grid-area: d!important;
   }
-  .blog > main .part aside:first-child article {
-    display: block !important;
+  .blog>footer{
+    grid-area: f!important;
   }
 }

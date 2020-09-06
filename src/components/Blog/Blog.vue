@@ -25,10 +25,7 @@
 
         <!-- 内容区域 -->
         <main>
-            <main class="main">
-
-                <!-- 内容区域 三部分 -->
-                <div class="part">
+            <section>
 
                     <!-- 左侧边栏 -->
                     <aside class="aside-left">
@@ -73,28 +70,6 @@
                             </footer>
                         </div>
 
-                        <!-- 分类区域 -->
-                        <div class="sort">
-                            <span><i class="el-icon-menu"></i>分类</span>
-                            <div class="line"></div>
-                            <main>
-                                <button v-for="item in sortList" :key="item.id">{{item.sort_name}}</button>
-                            </main>
-                        </div>
-
-                        <!-- 最近文章区域 -->
-                        <article>
-                            <span><i class="el-icon-document"></i>最近文章</span>
-                            <div class="line"></div>
-                            <nav>
-                                <ul>
-                                    <li v-for="(item,index) in blogList" :key="item.id" v-show="index < 5">
-                                        <label @click="changePath(item)">{{item.title}}</label>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </article>
-
                     </aside>
                     <!-- 左侧边栏 end-->
 
@@ -119,7 +94,10 @@
                             <nav>
                                 <ul>
                                     <li v-for="(item,index) in blogList" :key="item.id" v-show="index < 5">
-                                        <label @click="changePath(item)">{{item.title}}</label>
+                                        <label @click="changePath(item)">
+                                            <span>{{item.title}}</span>
+                                            <span>{{item.date}}</span>
+                                        </label>
                                     </li>
                                 </ul>
                             </nav>
@@ -127,9 +105,7 @@
 
                     </aside>  
 
-                </div>
-
-            </main>
+            </section>
         </main>
         
         <!-- 底部区域 -->
@@ -221,22 +197,26 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/css/blog.css';
 .blog{
-    display: flex;
-    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh;
     background: url(https://s1.ax1x.com/2020/05/28/te3Z79.jpg) no-repeat;
     background-attachment:fixed;
-    background-size: 100% 100%;
-    width: 100%;
-    min-height: 100vh;
+    background-size: cover;
     >header{
         min-height: 60px;
         background-color: rgba(23,23,23, .6);
     }
     >main{
         padding: 2vh 0;
-        .main{
+        section{
             width: 80vw;
+            box-sizing: border-box;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 6fr 2fr;
+            grid-template-rows: auto auto auto;
+            grid-template-areas: 'a b c' 'd b e' 'f f f';
+            gap: 20px;
         }
     }
     >footer{
@@ -301,19 +281,14 @@ export default {
     margin-left:auto;
 }
 .blog>main{
-    .part{
-        display: flex;
-        position: relative;
         aside:first-child{
-            width: 320px;
+            width: 100%;
             .me{
-                min-height: 360px;
+                min-height: 330px;
                 padding: 20px 0 0 0;
                 background-color: rgba(255, 255, 255, 0.4);
                 border-radius: 8px;
                 box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
-                transition: box-shadow .5s;
-                margin-bottom: 10px;
                 >header{
                     display: flex;
                     justify-content: center;
@@ -323,7 +298,7 @@ export default {
                         width: 100px;
                         height: 100px;
                         margin-right: 40px;
-                        border-radius: 3px;
+                        border-radius: 5px;
                     }
                     div{
                         display: flex;
@@ -339,16 +314,7 @@ export default {
                     flex-direction: column;
                     align-items: center;
                     margin: 20px 0;
-                    span{
-                        margin-bottom: 8px;
-                        color: #fff;
-                        &:first-child{color: #000;font-size: 18px;}
-                        &:nth-child(3){
-                            margin-bottom: 20px;
-                            color: #fff;
-                            font-size: 14px;
-                        }
-                    }
+                    span{margin-bottom: 8px;color: #000;}
                 }
                 >footer{
                     header{
@@ -361,110 +327,38 @@ export default {
                             flex-direction: column;
                             align-items: center;
                             justify-content: center;
+                            padding: 8px 0;
                             &:first-child{border-right: 1px solid #ECEFF2;}
-                            span{font-size: 16px;margin-bottom: 8px;}
                         }
                     }
                     footer{
                         display: flex;
                         justify-content: space-around;
-                        margin-top: 20px;
+                        margin-top: 10px;
                         img{width: 30px;height: 30px;border-radius: 50%;}
                     }
                 }
             }
-            .sort{
-                display: none;
-                background-color: rgba(255, 255, 255, 0.4);
-                border-radius: 8px;
-                width: 100%;
-                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
-                box-sizing: border-box;
-                padding: 10px 10px 0 10px;
-                margin-bottom: 10px;
-                span>i{margin-right: 5px;}
-                .line{border: 1px solid #70A1FF;margin: 10px 0;}
-                main{
-                    display: flex;
-                    flex-flow: row wrap;
-                    justify-content: space-between;
-                    align-content: space-around;
-                    min-height: 12vh;
-                    padding-bottom: 10px;
-                    button{
-                        padding: 5px 10px;
-                        border-radius: 3px;
-                        border: 1px solid #e74c3c;
-                        background-color: rgba(231,76,60,.125);
-                        color: #e74c3c;
-                        font-size: 16px;
-                        cursor: pointer;
-                        &:nth-child(2n+1){
-                             border: 1px solid #f1c40f;
-                             background-color: rgba(241,196,15,.125);
-                             color: #f1c40f;
-                        }
-                        &:nth-child(3n){
-                             border: 1px solid #2ecc71;
-                             background-color: rgba(46,204,113,.125);
-                             color: #2ecc71;
-                        }
-                    }
-
-                }
-            }
-            article{
-                display: none;
-                background-color: rgba(255, 255, 255, 0.5);
-                border-radius: 8px;
-                box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
-                box-sizing: border-box;
-                padding: 10px 10px 0 10px;
-                margin-bottom: 10px;
-                transition: all .5s;
-                span>i{margin-right: 5px;}
-                .line{border: 1px solid #70A1FF;margin-top: 10px;}
-                nav{
-                    li{
-                        list-style: none;
-                        line-height: 30px;
-                        border-bottom: 1px solid #ccc;
-                        font-size: 14px;
-                        &:nth-child(5){border: 0;}
-                        label{
-                            transition: color .5s;
-                            cursor: pointer;
-                            &:hover{color: #6c5ce7;}
-                        }
-                    }
-                }  
-            }
         }
-        >article{ 
-            flex: 1;
-            margin: 0 10px;
-        }
+        >article{border:1px solid red!important;}
         aside:last-child{
-            width: 320px;
+            width: 100%;
             .sort{
+                min-height: 160px;
                 background-color: rgba(255, 255, 255, 0.4);
                 border-radius: 8px;
-                width: 100%;
                 box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
                 box-sizing: border-box;
-                padding: 10px 10px 0 10px;
+                padding: 10px 10px;
                 transition: all .5s;
                 span>i{margin-right: 5px;}
                 .line{border: 1px solid #70A1FF;margin: 10px 0;}
                 main{
-                    display: flex;
-                    flex-flow: row wrap;
-                    justify-content: space-between;
-                    align-content: space-around;
-                    min-height: 12vh;
-                    padding-bottom: 10px;
+                    display: grid;
+                    grid-template-columns: repeat(3,1fr);
+                    gap: 10px;
+                    min-height: 90px;
                     button{
-                        padding: 5px 10px;
                         border-radius: 3px;
                         border: 1px solid #e74c3c;
                         background-color: rgba(231,76,60,.125);
@@ -490,7 +384,7 @@ export default {
                 border-radius: 8px;
                 box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
                 box-sizing: border-box;
-                padding: 10px 10px 0 10px;
+                padding: 10px 10px;
                 margin: 10px 0;
                 transition: all .5s;
                 span>i{margin-right: 5px;}
@@ -501,17 +395,19 @@ export default {
                         line-height: 30px;
                         border-bottom: 1px solid #ccc;
                         font-size: 14px;
-                        &:nth-child(5){border: 0;}
+                        &:last-child{border: 0;}
                         label{
+                            display: flex;
+                            flex-flow: row wrap;
+                            justify-content: space-between;
                             transition: color .5s;
                             cursor: pointer;
-                            &:hover{color: #6c5ce7;}
+                            &:hover{color: #c23616;}
                         }
                     }
                 }  
             }
         }  
-    }
 }
 .blog>footer{
     display: flex;

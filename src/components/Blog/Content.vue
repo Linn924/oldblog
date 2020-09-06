@@ -133,28 +133,28 @@ article{
         justify-content: center;
     }
 }
-@media screen and (max-width: 375px){
-    article #pageOne{
-        display: none;
-    }
-    article #pageTwo{
-        display: block;
-    }
-}
-@media screen and (min-width: 376px){
-    article #pageOne{
-        display: block;
-    }
-    article #pageTwo{
-        display: none;
-    }
-}
-@media screen and (max-width: 950px){
-    article{
-        width: 80vw;
-    }
-    article >span{
-        font-size: 16px!important;
-    }
-}
+// @media screen and (max-width: 375px){
+//     article #pageOne{
+//         display: none;
+//     }
+//     article #pageTwo{
+//         display: block;
+//     }
+// }
+// @media screen and (min-width: 376px){
+//     article #pageOne{
+//         display: block;
+//     }
+//     article #pageTwo{
+//         display: none;
+//     }
+// }
+// @media screen and (max-width: 950px){
+//     article{
+//         width: 80vw;
+//     }
+//     article >span{
+//         font-size: 16px!important;
+//     }
+// }
 </style>

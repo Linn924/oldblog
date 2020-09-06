@@ -57,21 +57,21 @@ article{
         }
     }
 }
-@media screen and (max-width: 950px){
-    article{
-        width: 80vw;
-    }
-}
-@media screen and (min-width: 950px) and (max-width: 1430px){
-    article{
-        max-width: 810px!important;
-        min-width: 430px!important;
-    }
-}
-@media screen and (min-width:1431px) and (max-width: 1920px){
-    article{
-        max-width: 870px!important;
-        min-width: 430px!important;
-    }
-}
+// @media screen and (max-width: 950px){
+//     article{
+//         width: 80vw;
+//     }
+// }
+// @media screen and (min-width: 950px) and (max-width: 1430px){
+//     article{
+//         max-width: 810px!important;
+//         min-width: 430px!important;
+//     }
+// }
+// @media screen and (min-width:1431px) and (max-width: 1920px){
+//     article{
+//         max-width: 870px!important;
+//         min-width: 430px!important;
+//     }
+// }
 </style>
