@@ -13,9 +13,9 @@
                 </a>
                 <ul>
                     <li><router-link to="/content"><i class="fa fa-home" @click="reload"></i>主页</router-link></li>
-                    <li class="hide"><router-link to="/demo"><i class="el-icon-collection-tag"></i>Demo</router-link></li>
-                    <li class="hide"><router-link to="/nav"><i class="el-icon-link"></i>简约导航</router-link></li>
-                    <li class="hide"><router-link to="/home"><i class="el-icon-user"></i>个人中心</router-link></li>
+                    <li><router-link to="/demo"><i class="el-icon-collection-tag"></i>Demo</router-link></li>
+                    <li><router-link to="/nav"><i class="el-icon-link"></i>简约导航</router-link></li>
+                    <li><router-link to="/index"><i class="el-icon-user"></i>个人中心</router-link></li>
                 </ul>
                 <el-input size="small" placeholder="搜索" suffix-icon="el-icon-search" v-model="value" @keyup.enter.native="enter" clearable></el-input>
             </main>
@@ -69,13 +69,13 @@
                         </div>
 
                     </aside>
-                    <!-- 左侧边栏 end-->
 
                     <!-- 博客文章 -->
                     <router-view ref="article"></router-view>
 
                     <!--右侧边栏 -->
                     <aside class="aside-right">
+                        
                          <!-- 分类区域 -->
                         <div class="sort">
                             <span><i class="el-icon-menu"></i>分类</span>
