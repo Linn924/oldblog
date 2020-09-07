@@ -9,7 +9,6 @@
                 <i class="fa fa-tag"><span>{{item.technology_name}}</span></i>
             </div>
             <p>{{item.introduce}}</p>
-            <button @click="changePath(item)">ReadMore</button>
         </article>
         <!-- 博客区域 end-->
 
@@ -85,22 +84,20 @@ export default {
 
 <style lang="less" scoped>
 article{
+    width: 100%;
     article{
         background-color: rgba(255, 255, 255, 0.4);
         border-radius: 8px;
         box-shadow: 0 2px 10px 0 rgba(0,0,0,0.12);
         margin-bottom: 10px;
-        padding: 20px 20px 0 20px;
+        padding: 20px 20px;
         box-sizing: border-box;
         color: #000;
-        transition: all .5s;
         >span{
-            font-size: 1.6vw;
+            font-size: 30px;
             cursor: pointer;
-            transition: color .5s;
-            &:hover{
-                color: #70A1FF;
-            }
+            transition: color .3s;
+            &:hover{color: #70A1FF;}
         }
         div{
             margin: 20px 0;
@@ -109,23 +106,10 @@ article{
                 span{
                     cursor: pointer;
                     margin-left: 10px;
-                    transition: color .5s;
-                    &:hover{
-                        color: #70A1FF;
-                    }
+                    transition: color .3s;
+                    &:hover{color: #70A1FF;}
                 }
             }
-        }
-        button{
-            width: 90px;
-            height: 30px;
-            border-radius: 5px;
-            border: 0;
-            margin: 20px 0;
-            transition: all .5s;
-            cursor: pointer;
-            color: #fff;
-            background-color: #70A1FF;
         }
     }
     footer{
@@ -133,28 +117,4 @@ article{
         justify-content: center;
     }
 }
-// @media screen and (max-width: 375px){
-//     article #pageOne{
-//         display: none;
-//     }
-//     article #pageTwo{
-//         display: block;
-//     }
-// }
-// @media screen and (min-width: 376px){
-//     article #pageOne{
-//         display: block;
-//     }
-//     article #pageTwo{
-//         display: none;
-//     }
-// }
-// @media screen and (max-width: 950px){
-//     article{
-//         width: 80vw;
-//     }
-//     article >span{
-//         font-size: 16px!important;
-//     }
-// }
 </style>
