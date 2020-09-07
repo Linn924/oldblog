@@ -23,8 +23,4 @@ module.exports = {
         'element-ui': 'ELEMENT'
       })
     }
-
-    
-  
-
 }
