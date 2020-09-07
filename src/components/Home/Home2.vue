@@ -9,7 +9,6 @@
         <li @click="showWallpaper = true" class="fa fa-star"></li>
       </ul>
     </header>
-    <!-- 头部区域 end-->
 
     <!-- 主体区域 -->
     <main>
@@ -33,7 +32,6 @@
             <span :class="enlargeSearch ? 'enlarge' : 'narrow' ">search</span>
         </div>
       </div>
-      <!-- 搜索框区域 end-->
 
       <!-- 宫格区域 -->
       <div class="block">
@@ -54,10 +52,8 @@
           </li>
         </ul>
       </div>
-      <!-- 宫格区域 end-->
 
     </main>
-    <!-- 主体区域 end-->
 
     <!-- 底部个人说明 -->
     <footer>
@@ -66,7 +62,6 @@
             <span> 苏ICP备20023864号</span>
         </main>
     </footer>
-    <!-- 底部个人说明 end-->
 
     <!-- 壁纸盒子 -->
     <el-dialog
@@ -102,7 +97,6 @@
         </div>
       </div>
     </el-dialog>
-    <!-- 壁纸盒子 end-->
 
     <!-- 编辑抽屉 -->
     <el-drawer
@@ -119,13 +113,11 @@
       </div>
       <el-button type="success" @click="finishEB">完成</el-button>
     </el-drawer>
-    <!-- 编辑抽屉 end -->
 
     <!-- 蒙板区域 -->
     <transition>
       <div class="mengban" v-show="showBMb" @click="clickBMb"></div>
     </transition>
-    <!-- 蒙板区域 end-->
     
   </div>
 </template>

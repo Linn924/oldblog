@@ -8,27 +8,22 @@
             <ul id="ulOne">
                 <li v-for="item in ulOne" :key="item.id" :class="item.id == 0 ? 'currentLi':''" @click="switchUl(item.id)">{{item.title}}</li>
             </ul>
-            <!-- 搜索框上面的ul end-->
 
             <!-- 可移动的线 -->
             <div class="line"></div>
-            <!-- 可移动的线 end-->
 
             <!-- 搜索框 -->
             <div class="search">
                 <input type="text" :placeholder="value" ref="search" v-model="searchValue" @keyup="search">
                 <button @click="searchAgain"><i class="el-icon-search"></i></button>
             </div>
-            <!-- 搜索框 end-->
 
             <!-- 搜索框下面的ul -->
             <ul id="ulTwo" v-for="(item,index) in ulTwo" :key="index" v-show="index == currentIndex">
                 <li v-for="i in item.children" :key="i.id" :class="i.id == 0 ? 'currentLi':''" @click="switchLi(i.id,i.path)">{{i.title}}</li>
             </ul>
-            <!-- 搜索框下面的ul end-->
 
         </header>
-        <!-- 搜索框部分 end-->
 
         <!-- 内容区域 -->
         <main>
@@ -39,7 +34,6 @@
                     
                     <!-- 提示文字 -->
                     <label :style="{'color':sunny?'#888':'#000'}"><i class="el-icon-price-tag"></i><span>{{item.title}}</span></label>
-                    <!-- 提示文字 end-->
 
                     <!-- 小导航 -->
                     <div>
@@ -49,7 +43,6 @@
                         </ul>
                         <!-- <span>more+</span> -->
                     </div>
-                    <!-- 小导航 end-->
 
                     <!-- 数据 -->
                     <ul v-for="it in item.navData" :key="it.id" v-show="it.id === indexArr[item.id].index">
@@ -63,18 +56,14 @@
                             </a>
                         </li>
                     </ul>
-                    <!-- 数据 end-->
 
                 </div>
             </section>
-            <!-- 主要内容 end-->
 
             <!-- 底部备案 -->
             <footer :style="{'color':sunny?'#fff':'#000'}">Copyright © 2020 西蒙导航 苏ICP备20023864号   Design by 西蒙</footer>
-            <!-- 底部备案 end-->
 
         </main>
-         <!-- 内容区域 -->
 
          
     </div>

@@ -8,7 +8,6 @@
 
                 <!-- 左侧图片 -->
                 <div class="img"></div>
-                <!-- 左侧图片 end-->
 
                 <!-- 右侧登录表单 -->
                 <div :class="changeColor ? 'login textcolor':'login'" @mouseenter="enterLogin" @mouseleave="leaveLogin">
@@ -30,10 +29,8 @@
                     </el-form>
                     <div></div>
                 </div>
-                <!-- 右侧登录表单 end-->
 
             </div> 
-            <!-- 登录表单 end-->
             
             <!-- 注册表单 -->
             <div :class="showAnimate ?'Register animated bounceOutRight':'Register animated bounceInRight'">
@@ -59,14 +56,11 @@
                         <span>if you have an account <a href="#" @click.prevent="showAnimate = true">Sign in</a></span>
                     </el-form>
                 </div>
-                <!-- 左侧登录表单 end-->
 
                 <!-- 右侧图片 -->
                 <div class="img"></div>
-                <!-- 右侧图片 end-->
 
             </div> 
-           <!-- 注册表单 end -->
            
         </div>
         <!-- 居中盒子 end -->

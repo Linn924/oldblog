@@ -5,7 +5,6 @@
         <el-backtop>
             <i class="fa fa-arrow-up" :class="sunny?'backtopOne':'backtopTwo'"></i>
         </el-backtop>
-        <!-- 回到顶部 end-->
 
         <!-- 左侧栏 -->
         <aside :class="sunny?'switchColor enterAside':''">
@@ -34,7 +33,6 @@
                 </el-menu-item>
             </el-menu>
         </aside>
-        <!-- 左侧栏 end -->
 
         <!-- 右边内容区域 -->
 
@@ -55,16 +53,13 @@
                     <i class="fa fa-search" :style="{right:isCollapse ?'50px':'200px'}"></i>
                 </div>
             </header>
-            <!-- 顶部导航 end-->
 
             <!-- 中间链接内容-->
             <main>
                 <router-view ref="Link" :sunny="sunny"></router-view>
             </main>
-            <!-- 中间链接内容 end-->
 
         </main>
-        <!-- 右边内容区域 end -->
 
         <!-- 右下角切换颜色等功能 -->
         <div class="Weather">
@@ -102,7 +97,6 @@
                 </div>
             </div>
         </div>
-        <!-- 右下角切换颜色功能 end-->
 
     </nav>
 </template>

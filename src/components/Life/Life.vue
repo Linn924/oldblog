@@ -3,7 +3,6 @@
 
     <!-- 回到顶部 必须写在首位-->
     <el-backtop><i class="fa fa-arrow-up"></i></el-backtop>
-    <!-- 回到顶部 end-->
 
     <!-- 轮播图 -->
     <el-carousel :interval="5000" height="40vw" arrow="never">
@@ -12,7 +11,6 @@
         <div class="menban"></div>
       </el-carousel-item>
     </el-carousel>
-    <!-- 轮播图 end-->
 
     <!-- 导航栏 -->
     <nav class="box">
@@ -48,7 +46,6 @@
         </ul>
       </footer>
     </nav>
-    <!-- 导航栏 end-->
 
     <!-- 九宫格功能模块 -->
     <div class="gather">  
@@ -63,7 +60,6 @@
             </div>
         </div>
     </div>
-    <!-- 九宫格功能模块 end-->
 
     <!-- 九宫格对话框展示 -->
     <el-dialog :visible.sync="blockDialog" width="35%" class="blockDialog">
@@ -71,7 +67,6 @@
         <span>测试</span>
         <el-button type="primary">Get into</el-button>
     </el-dialog>
-    <!-- 九宫格对话框展示 end-->
 
     <!-- 文章区域 -->
     <article>
@@ -85,7 +80,6 @@
         </div>
       </main>
     </article>
-    <!-- 文章区域 end-->
 
     <!-- 底部 -->
     <footer>
@@ -113,7 +107,6 @@
         </div>
       </main>
     </footer>
-    <!-- 底部 end-->
 
   </div>
 </template>

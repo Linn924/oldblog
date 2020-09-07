@@ -9,7 +9,6 @@
                <li @click="showWpBox" class="fa fa-star"></li>
             </ul>
         </header>
-        <!-- 头部区域 end-->
 
         <!-- 中间区域内容 -->
         <main>
@@ -38,10 +37,8 @@
                     </ul>
                 </main>
             </div>
-            <!-- 个人待办事项 end-->
             
         </main>
-        <!-- 中间区域内容 end-->
 
         <!-- 底部个人说明 -->
         <footer>
@@ -50,7 +47,6 @@
                 <span> 苏ICP备20023864号</span>
             </main>
         </footer>
-        <!-- 底部个人说明 end-->
         
          <!-- 壁纸盒子 -->
         <el-dialog
@@ -78,13 +74,11 @@
                 </div>
             </div>
         </el-dialog>
-        <!-- 壁纸盒子 end-->
 
         <!-- 蒙板区域 -->
         <transition>
             <div class="mengban" v-show="showBMb"></div>
         </transition>
-        <!-- 蒙板区域 end-->
 
     </div>
 </template>
