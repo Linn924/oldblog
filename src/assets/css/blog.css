@@ -1,72 +1,41 @@
-@media screen and (max-width: 375px) {
-  .blog>header li.disappear {
-    display: none!important;
-  }
-  .blog>header .el-input{
-    width: 100px!important;
-  }
-  .blog{
-    background: url(https://s1.ax1x.com/2020/05/17/YRMQyt.jpg) no-repeat center !important;
-    background-attachment:fixed !important;
-  }
-}
-@media screen and (max-width: 600px) {
-  .blog>header li {
-    font-size: 12px!important;
-  }
-  .blog .partOne main {
-    display: none !important;
-  }
-  .blog .partOne>footer span {
-    font-size: 14px !important;
-  }
-}
-@media screen and (max-width: 700px) {
-  .blog>header li {
-    padding: 0 10px !important;
-  }
-}
-@media screen and (max-width: 870px) {
-  .blog > header a {
-    margin-right: 0 !important;
-  }
-  .blog > header img {
-    margin-right: 0 !important;
-  }
-  /* .blog>main .main .partOne {
-    display: flex!important;
-  } */
-  
-}
-/* @media screen and (max-width: 950px) {
-  .blog>main section {
-    margin-top: 10px !important;
-  }
-  .blog>main section aside:first-child {
-    display: none !important;
-  }
-  .blog>main section article {
-    margin-left: 0 !important;
-  }
-} */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 950px) {
   .blog>main section{
-    grid-template-columns: 1fr!important;
+    grid-template-columns: 80vw!important;
+    grid-template-rows: auto auto!important;
+    grid-template-areas: 'a' 'b'!important;
   }
-  .blog>main section aside {
+  .blog>main section aside:first-child{
     display: none!important;
+  } 
+  .blog>main section aside:last-child {
+    grid-area: b!important;
   }
 }
-@media screen and (max-width: 1620px) {
+@media screen and (min-width:951px) and (max-width: 1200px) {
   .blog>main section{
-    grid-template-columns: 2.8fr 7fr!important;
+    grid-template-columns: 3.2fr 6fr!important;
     grid-template-rows: 350px minmax(500px,750px) auto!important;
+    grid-template-areas: 'a b' 'c b' 'd d'!important;
     row-gap: 10px!important;
   }
   .blog>main section aside:last-child {
-    grid-area: d!important;
+    grid-area: c!important;
   }
   .blog>footer{
-    grid-area: f!important;
+    grid-area: d!important;
+  }
+}
+@media screen and (min-width: 1201px) and (max-width: 1620px) {
+  .blog>main section{
+    grid-template-columns: 2.8fr 7fr!important;
+    grid-template-rows: 350px minmax(500px,750px) auto!important;
+    grid-template-areas: 'a b' 'c b' 'd d'!important;
+    row-gap: 10px!important;
+  }
+  .blog>main section aside:last-child {
+    grid-area: c!important;
+  }
+  .blog>footer{
+    grid-area: d!important;
   }
 }

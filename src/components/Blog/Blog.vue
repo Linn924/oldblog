@@ -215,7 +215,6 @@ export default {
             display: grid;
             grid-template-columns: 2fr 6fr 2fr;
             grid-template-rows: auto auto auto;
-            grid-template-areas: 'a b c' 'd b e' 'f f f';
             gap: 20px;
         }
     }
@@ -340,7 +339,6 @@ export default {
                 }
             }
         }
-        >article{border:1px solid red!important;}
         aside:last-child{
             width: 100%;
             .sort{
