@@ -222,7 +222,7 @@ export default {
                 {id:0,path:'/nav',className:'fa fa-home',title:'主页'},
                 {id:1,path:'/blog',className:'el-icon-notebook-1',title:'博客'},
                 {id:2,path:'/message',className:'el-icon-edit-outline',title:'留言板'},
-                {id:3,path:'/home',className:'el-icon-user',title:'个人中心'}
+                {id:3,path:'/index',className:'el-icon-user',title:'个人中心'}
             ],
             city:'',//当前城市
             weatherList:[],//最近三天天气数据
