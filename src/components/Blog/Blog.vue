@@ -7,18 +7,16 @@
         <!-- 头部导航 -->
         <header>
             <main>
-                <nav>
-                    <a href="javascript:void(0);">
-                        <img src="https://s1.ax1x.com/2020/09/04/wkxl9K.jpg" alt="">
-                        <span>Smion</span>
-                    </a>
-                    <ul>
-                        <li><router-link to="/content"><i class="fa fa-home" @click="reload"></i>主页</router-link></li>
-                        <li class="hide"><router-link to="/demo"><i class="el-icon-collection-tag"></i>Demo</router-link></li>
-                        <li class="hide"><router-link to="/nav"><i class="el-icon-link"></i>简约导航</router-link></li>
-                        <li class="hide"><router-link to="/home"><i class="el-icon-user"></i>个人中心</router-link></li>
-                    </ul>
-                </nav>
+                <a href="javascript:void(0);">
+                    <img src="https://s1.ax1x.com/2020/09/04/wkxl9K.jpg" alt="">
+                    <span>Smion</span>
+                </a>
+                <ul>
+                    <li><router-link to="/content"><i class="fa fa-home" @click="reload"></i>主页</router-link></li>
+                    <li class="hide"><router-link to="/demo"><i class="el-icon-collection-tag"></i>Demo</router-link></li>
+                    <li class="hide"><router-link to="/nav"><i class="el-icon-link"></i>简约导航</router-link></li>
+                    <li class="hide"><router-link to="/home"><i class="el-icon-user"></i>个人中心</router-link></li>
+                </ul>
                 <el-input size="small" placeholder="搜索" suffix-icon="el-icon-search" v-model="value" @keyup.enter.native="enter" clearable></el-input>
             </main>
         </header>
@@ -233,12 +231,10 @@ export default {
 .blog>header{
     main{
         width: 80vw;
-        display: flex;
-        flex-flow: row wrap;
-        align-items: center;
+        display: grid;
+        grid-template-columns:140px auto 180px;
+        grid-template-rows: 1fr;
         margin: 0 auto;
-        nav{
-            display: flex;
             >a{
                 display: flex;
                 align-items: center;
@@ -272,12 +268,11 @@ export default {
                     
                 }
             }
-        }
     }
 }
 .blog>header .el-input{
     width: 180px!important;
-    margin-left:auto;
+    place-self: center center;
 }
 .blog>main{
         aside:first-child{
