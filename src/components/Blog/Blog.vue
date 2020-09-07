@@ -45,7 +45,7 @@
                             <footer>
                                 <header>
                                     <div>
-                                        <span>{{total}}</span>
+                                        <span>{{$store.state.total}}</span>
                                         <span>文章</span>                                  
                                     </div>
                                     <div>
@@ -100,7 +100,7 @@
                                 </ul>
                             </nav>
                         </article>
-
+                        
                     </aside>  
 
             </section>
@@ -123,10 +123,8 @@ export default {
         return {
             sortCount:0,//分类总数
             sortList:[],//分类数据
-            blogList:[],//博客数据
-            total:0,//文章总数
-            value:'',
-            queryList:{//获取博客数据传值列表
+            value:'',//搜索框数据
+            queryList:{//博客数据传值对象
                 pagenum:1,
                 pagesize:1000
             }
@@ -134,7 +132,12 @@ export default {
     },
     created() {
         this.getSTData()//调用获取分类与标签数据
-        this.getBlogData()//调用获取博客数据
+    },
+    computed:{
+        // 获取子组件传递到store中blogData的数据
+        blogList(){
+            return this.$store.state.blogList
+        }
     },
     watch: {
         $route(to,from){//监听路由变化
@@ -142,18 +145,10 @@ export default {
         }
     },
     mounted() {
-        // this.scroll()//页面滚动两侧边栏固定
         var path = window.location.href.split("#")[1]
         this.showAside(path)//刷新页面是否隐藏左右两侧边栏
     },
     methods: {
-        //获取博客数据
-        async getBlogData(){
-            const {data:res} = await this.$http.get("blogdata",{params:this.queryList})
-            if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
-            this.blogList = res.data.reverse()
-            this.total = res.total
-        },
         //搜索框按回车搜索文章
         enter(){
             this.$store.commit("setValue",this.value)
@@ -184,9 +179,9 @@ export default {
                 asideRight.style.display = 'block'
             }
         },
-        //调用子组件方法
+        //调用子组件获取博客数据方法
         reload(){
-            this.$refs.article.getDataAgain()
+            this.$refs.article.getBlogData()
         }
     }
 }

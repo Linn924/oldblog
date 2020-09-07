@@ -6,10 +6,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     mdname: '',//md文件名称
-    value:''//blog界面搜索框关键词
+    value:'',//blog界面搜索框的值
+    blogList:'',//博客数据
+    total:'',//文章总数
   },
   mutations: {
-    //为store中的mdname赋值
     setMdname(state, val) {
       state.mdname = val
     },
@@ -18,6 +19,10 @@ export default new Vuex.Store({
     },
     setValueAgain(state) {
       state.value = ''
+    },
+    setBlogData(state,val){
+      state.blogList = val.data.reverse()
+      state.total = val.total
     }
   },
   actions: {

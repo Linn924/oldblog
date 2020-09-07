@@ -34,12 +34,13 @@ export default {
     data(){
         return {
             blogList:[],//博客数据   
-            queryList:{
+            queryList:{//默认分页数据
                 key:'',
                 pagenum:1,
                 pagesize:5
             }, 
-            total:0
+            total:0,//博客数据总数
+            flag:true//允许把博客数据传到store中
         }
     },
     created() {
@@ -50,11 +51,18 @@ export default {
         async getBlogData(){
             this.queryList.key = this.$store.state.value 
             const {data:res} = await this.$http.get("blogdata",{params:this.queryList})
-            if(res.code != 200) return this.$message.error(`${res.tips}`)
+            if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
+            console.log(res.data)
             this.blogList = res.data
             this.total = res.total
             this.queryList.key = ''
             this.$store.commit("setValueAgain")
+            //深拷贝res对象
+            var result = JSON.parse(JSON.stringify(res))
+            //允许把博客数据传到store中
+            if(this.flag){this.$store.commit("setBlogData",result)}
+            //只允许传递一次
+            this.flag = false
         },
         //监听每页展示博客数量的变化
         handleSizeChange(newSize) {
@@ -71,13 +79,6 @@ export default {
             this.$store.commit('setMdname',item.mdname)
             this.$router.push({path:`/template?${item.mdname}`})
         },
-        //再次获取数据
-        async getDataAgain(){
-            const {data:res} = await this.$http.get("blogdata",{params:this.queryList})
-            if(res.code != 200) return this.$message.error(`${res.tips}`)
-            this.blogList = res.data
-            this.total = res.total
-        }
     }
 }
 </script>
