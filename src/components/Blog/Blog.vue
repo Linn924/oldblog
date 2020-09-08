@@ -160,7 +160,7 @@ export default {
             this.$refs.article.getBlogData()
             this.value = ''
         },
-        //获取分类与标签数据函数
+        //获取分类与标签数据
         async getSTData(){
             const {data:res} = await this.$http.get("blogdatadetail")
             if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
@@ -192,7 +192,7 @@ export default {
         reload(){
             this.$refs.article.getBlogData()
         },
-        // 禁用button按钮 路由发生改变后
+        //路由发生改变后 禁用button按钮 
         disableBtn(path){
             var btns = document.querySelectorAll('.sort button')
             if(path != '/content'){

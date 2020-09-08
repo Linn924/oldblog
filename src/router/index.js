@@ -59,7 +59,7 @@ const router = new VueRouter({
 //挂载路由导航守卫 目的是为了防止用户在未登录的状态下 通过路由直接进入有权限的界面
 router.beforeEach((to, from, next) => {
   //to 将要访问的路径 from 代表从哪个路径跳转而来 next 是一个函数，表示放行 next('./login') 强制跳转到登录界面
-  if (to.path === '/index' || to.path === '/login' || to.path === '/content' || to.path === '/template' || to.path === '/demo' || to.path === '/link' || to.path === '/message') {
+  if (to.path === '/index' || to.path === '/login' || to.path === '/content' || to.path === '/template' || to.path === '/link') {
     next()
   } else {
     const tokenStr = window.sessionStorage.getItem('token')

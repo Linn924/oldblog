@@ -3,7 +3,6 @@ import router from './router'
 import VueJsonp from 'vue-jsonp'
 import store from './store'
 import './assets/css/global.css'
-import axios from 'axios'
 import './assets/css/atom-one-dark.css'
 import animate from 'animate.css'
 
