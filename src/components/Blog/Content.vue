@@ -52,7 +52,6 @@ export default {
             this.queryList.key = this.$store.state.value 
             const {data:res} = await this.$http.get("blogdata",{params:this.queryList})
             if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
-            console.log(res.data)
             this.blogList = res.data
             this.total = res.total
             this.queryList.key = ''
