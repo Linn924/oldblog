@@ -19,10 +19,6 @@
                 layout="sizes, prev, pager, next, jumper" :total="total" id="pageOne">
             </el-pagination>
 
-            <el-pagination background @current-change="handleCurrentChange"
-                :current-page="queryList.pagenum" :page-size="queryList.pagesize"
-                layout="pager" :total="total" id="pageTwo">
-            </el-pagination>
         </footer>
         <!-- 分页区域 end-->
         
@@ -37,10 +33,9 @@ export default {
             queryList:{//默认分页数据
                 key:'',
                 pagenum:1,
-                pagesize:5
+                pagesize:8
             }, 
             total:0,//博客数据总数
-            flag:true//允许把博客数据传到store中
         }
     },
     created() {
@@ -56,12 +51,6 @@ export default {
             this.total = res.total
             this.queryList.key = ''
             this.$store.commit("setValueAgain")
-            //深拷贝res对象
-            var result = JSON.parse(JSON.stringify(res))
-            //允许把博客数据传到store中
-            if(this.flag){this.$store.commit("setBlogData",result)}
-            //只允许传递一次
-            this.flag = false
         },
         //监听每页展示博客数量的变化
         handleSizeChange(newSize) {
@@ -78,6 +67,12 @@ export default {
             this.$store.commit('setMdname',item.mdname)
             this.$router.push({path:`/template?${item.mdname}`})
         },
+        //根据点击的分类标签id获取所有有关此分类的数据
+        async getAboutSortData(id){
+            const {data:res} = await this.$http.post('/getAboutSortData',{id})
+            if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
+            this.blogList = res.data
+        }
     }
 }
 </script>

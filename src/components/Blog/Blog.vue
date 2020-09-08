@@ -12,7 +12,7 @@
                     <span>Smion</span>
                 </a>
                 <ul>
-                    <li><router-link to="/content"><i class="fa fa-home" @click="reload"></i>主页</router-link></li>
+                    <li><router-link to="/content" @click.native="reload"><i class="fa fa-home" ></i>主页</router-link></li>
                     <li><router-link to="/demo"><i class="el-icon-collection-tag"></i>Demo</router-link></li>
                     <li><router-link to="/nav"><i class="el-icon-link"></i>简约导航</router-link></li>
                     <li><router-link to="/index"><i class="el-icon-user"></i>个人中心</router-link></li>
@@ -45,7 +45,7 @@
                             <footer>
                                 <header>
                                     <div>
-                                        <span>{{$store.state.total}}</span>
+                                        <span>{{total}}</span>
                                         <span>文章</span>                                  
                                     </div>
                                     <div>
@@ -81,7 +81,7 @@
                             <span><i class="el-icon-menu"></i>分类</span>
                             <div class="line"></div>
                             <main>
-                                <button v-for="item in sortList" :key="item.id">{{item.sort_name}}</button>
+                                <button v-for="item in sortList" :key="item.id" @click="click_sort(item.id)">{{item.sort_name}}</button>
                             </main>
                         </div>
 
@@ -91,7 +91,7 @@
                             <div class="line"></div>
                             <nav>
                                 <ul>
-                                    <li v-for="(item,index) in blogList" :key="item.id" v-show="index < 5">
+                                    <li v-for="item in blogList" :key="item.id">
                                         <label @click="changePath(item)">
                                             <span>{{item.title}}</span>
                                             <span>{{item.date}}</span>
@@ -121,6 +121,8 @@
 export default {
     data(){
         return {
+            blogList:[],
+            total:0,
             sortCount:0,//分类总数
             sortList:[],//分类数据
             value:'',//搜索框数据
@@ -131,13 +133,8 @@ export default {
         }
     },
     created() {
-        this.getSTData()//调用获取分类与标签数据
-    },
-    computed:{
-        // 获取子组件传递到store中blogData的数据
-        blogList(){
-            return this.$store.state.blogList
-        }
+        this.getSTData()//调用获取分类与标签数据方法
+        this.getBlogAllData()
     },
     watch: {
         $route(to,from){//监听路由变化
@@ -149,6 +146,13 @@ export default {
         this.showAside(path)//刷新页面是否隐藏左右两侧边栏
     },
     methods: {
+        //获取博客最近文章
+        async getBlogAllData(){
+            const {data:res} = await this.$http.get('blogAllData')
+            if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
+            this.total = res.total
+            this.blogList = res.data
+        },
         //搜索框按回车搜索文章
         enter(){
             this.$store.commit("setValue",this.value)
@@ -179,7 +183,11 @@ export default {
                 asideRight.style.display = 'block'
             }
         },
-        //调用子组件获取博客数据方法
+        //调用子组件中方法获取所有有关此分类的数据
+        click_sort(id){
+            this.$refs.article.getAboutSortData(id)
+        }, 
+        //重载 调用子组件中方法重新获取博客数据
         reload(){
             this.$refs.article.getBlogData()
         }
@@ -353,6 +361,8 @@ export default {
                         color: #e74c3c;
                         font-size: 16px;
                         cursor: pointer;
+                        outline: none;
+                        transition: .3s;
                         &:nth-child(2n+1){
                              border: 1px solid #f1c40f;
                              background-color: rgba(241,196,15,.125);
@@ -363,6 +373,7 @@ export default {
                              background-color: rgba(46,204,113,.125);
                              color: #2ecc71;
                         }
+                        &:hover{transform: scale(0.9);}
                     }
 
                 }
