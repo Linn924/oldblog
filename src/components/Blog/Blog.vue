@@ -139,6 +139,7 @@ export default {
     watch: {
         $route(to,from){//监听路由变化
             this.showAside(to.path)
+            this.disableBtn(to.path)
         }
     },
     mounted() {
@@ -190,6 +191,21 @@ export default {
         //重载 调用子组件中方法重新获取博客数据
         reload(){
             this.$refs.article.getBlogData()
+        },
+        // 禁用button按钮 路由发生改变后
+        disableBtn(path){
+            var btns = document.querySelectorAll('.sort button')
+            if(path != '/content'){
+                btns.forEach(item => {
+                    item.setAttribute('disabled','true')
+                    item.style.cursor = 'not-allowed'
+                })
+            }else{
+                btns.forEach(item => {
+                    item.removeAttribute('disabled')
+                    item.style.cursor = 'pointer'
+                })
+            }
         }
     }
 }
@@ -355,24 +371,16 @@ export default {
                     gap: 10px;
                     min-height: 90px;
                     button{
-                        border-radius: 3px;
-                        border: 1px solid #e74c3c;
-                        background-color: rgba(231,76,60,.125);
-                        color: #e74c3c;
-                        font-size: 16px;
+                        border-radius: 5px;
+                        border: 0;
+                        background-color: rgba(231,76,60);
+                        color: #fff;
+                        font-size: 14px;
                         cursor: pointer;
                         outline: none;
-                        transition: .3s;
-                        &:nth-child(2n+1){
-                             border: 1px solid #f1c40f;
-                             background-color: rgba(241,196,15,.125);
-                             color: #f1c40f;
-                        }
-                        &:nth-child(3n){
-                             border: 1px solid #2ecc71;
-                             background-color: rgba(46,204,113,.125);
-                             color: #2ecc71;
-                        }
+                        transition:all .2s;
+                        &:nth-child(2n+1){background-color: rgba(112,161,225);}
+                        &:nth-child(3n){background-color: rgba(46,204,113);}
                         &:hover{transform: scale(0.9);}
                     }
 

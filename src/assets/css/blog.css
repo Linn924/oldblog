@@ -25,7 +25,7 @@
 @media screen and (min-width:951px) and (max-width: 1200px) {
   .blog>main section{
     grid-template-columns: 3.2fr 6fr!important;
-    grid-template-rows: 350px 550px auto!important;
+    grid-template-rows: 350px minmax(500px,730px) auto!important;
     grid-template-areas: 'a b' 'c b' 'd d'!important;
     row-gap: 10px!important;
   }
@@ -39,7 +39,7 @@
 @media screen and (min-width: 1201px) and (max-width: 1620px) {
   .blog>main section{
     grid-template-columns: 2.8fr 7fr!important;
-    grid-template-rows: 350px 550px auto!important;
+    grid-template-rows: 350px minmax(500px,730px) auto!important;
     grid-template-areas: 'a b' 'c b' 'd d'!important;
     row-gap: 10px!important;
   }

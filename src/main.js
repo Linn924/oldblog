@@ -1,4 +1,3 @@
-// import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import VueJsonp from 'vue-jsonp'
@@ -33,6 +32,11 @@ Vue.directive('highlight', function (el) {
   })
 })
 
+//解决路由跳转报错（Avoided redundant navigation to current location ）
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 
 new Vue({
   router,

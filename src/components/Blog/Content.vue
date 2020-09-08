@@ -98,12 +98,7 @@ article{
             margin: 20px 0;
             i{
                 margin-right: 10px;
-                span{
-                    cursor: pointer;
-                    margin-left: 10px;
-                    transition: color .3s;
-                    &:hover{color: #70A1FF;}
-                }
+                span{margin-left: 10px;}
             }
         }
     }

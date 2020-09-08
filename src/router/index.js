@@ -1,6 +1,3 @@
-// import Vue from 'vue'
-// import VueRouter from 'vue-router'
-
 const Index = () => import( /* webpackChunkName: "index" */ '../components/Index.vue')
 
 // import Home from '../components/Home/Home.vue'
