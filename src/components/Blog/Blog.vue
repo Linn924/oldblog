@@ -1,24 +1,24 @@
 <template>
-    <div class="blog">
+    <div id="blog">
 
-        <!-- 回到顶部-->
+        <!-- 回到顶部 写在顶部-->
         <el-backtop><i class="fa fa-arrow-up"></i></el-backtop>
 
         <!-- 头部导航 -->
         <header>
-            <main>
+            <section>
                 <a href="javascript:void(0);">
                     <img src="https://s1.ax1x.com/2020/09/04/wkxl9K.jpg" alt="">
                     <span>Smion</span>
                 </a>
-                <ul>
+                <nav>
                     <li><router-link to="/content" @click.native="reload"><i class="fa fa-home" ></i>主页</router-link></li>
                     <li><router-link to="/demo"><i class="el-icon-collection-tag"></i>Demo</router-link></li>
                     <li><router-link to="/nav"><i class="el-icon-link"></i>简约导航</router-link></li>
                     <li><router-link to="/index"><i class="el-icon-user"></i>个人中心</router-link></li>
-                </ul>
+                </nav>
                 <el-input size="small" placeholder="搜索" suffix-icon="el-icon-search" v-model="value" @keyup.enter.native="enter" clearable></el-input>
-            </main>
+            </section>
         </header>
 
         <!-- 内容区域 -->
@@ -80,9 +80,9 @@
                         <div class="sort">
                             <span><i class="el-icon-menu"></i>分类</span>
                             <div class="line"></div>
-                            <main>
+                            <section>
                                 <button v-for="item in sortList" :key="item.id" @click="click_sort(item.id)">{{item.sort_name}}</button>
-                            </main>
+                            </section>
                         </div>
 
                         <!-- 最近文章区域 -->
@@ -90,14 +90,11 @@
                             <span><i class="el-icon-document"></i>最近文章</span>
                             <div class="line"></div>
                             <nav>
-                                <ul>
-                                    <li v-for="item in blogList" :key="item.id">
-                                        <label @click="changePath(item)">
-                                            <span>{{item.title}}</span>
-                                            <span>{{item.date}}</span>
-                                        </label>
-                                    </li>
-                                </ul>
+                                <li v-for="item in blogList" :key="item.id">
+                                    <label @click="changePath(item)">
+                                        {{item.title}}
+                                    </label>
+                                </li>
                             </nav>
                         </article>
                         
@@ -108,10 +105,10 @@
         
         <!-- 底部区域 -->
         <footer>         
-            <main>
+            <section>
                 <p>© 2020 - 2021 LinnCode 版权所有</p>
                 <p>苏ICP备20023864号</p>
-            </main>
+            </section>
         </footer>
         
     </div>
@@ -126,15 +123,11 @@ export default {
             sortCount:0,//分类总数
             sortList:[],//分类数据
             value:'',//搜索框数据
-            queryList:{//博客数据传值对象
-                pagenum:1,
-                pagesize:1000
-            }
         }
     },
     created() {
         this.getSTData()//调用获取分类与标签数据方法
-        this.getBlogAllData()
+        this.getBlogAllData()//调用获取所有博客数据方法
     },
     watch: {
         $route(to,from){//监听路由变化
@@ -164,7 +157,7 @@ export default {
         async getSTData(){
             const {data:res} = await this.$http.get("blogdatadetail")
             if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
-            this.sortList = res.data.data1
+            this.sortList = res.data.data
             this.sortCount = this.sortList.length
         },
         //监听要查看的博客地址
@@ -213,7 +206,7 @@ export default {
 
 <style lang="less" scoped>
 @import '../../assets/css/blog.css';
-.blog{
+#blog{
     width: 100vw;
     min-height: 100vh;
     background: url(https://s1.ax1x.com/2020/05/28/te3Z79.jpg) no-repeat;
@@ -225,7 +218,7 @@ export default {
     }
     >main{
         padding: 2vh 0;
-        section{
+        >section{
             width: 80vw;
             box-sizing: border-box;
             margin: 0 auto;
@@ -247,8 +240,8 @@ export default {
         color: white;
     }
 }
-.blog>header{
-    main{
+#blog>header{
+    section{
         width: 80vw;
         display: grid;
         grid-template-columns:140px auto 180px;
@@ -271,7 +264,7 @@ export default {
                     transition: color .5s; 
                 }
             }
-            ul{
+            nav{
                 display: flex;
                 list-style: none;
                 line-height: 60px;
@@ -289,11 +282,11 @@ export default {
             }
     }
 }
-.blog>header .el-input{
+#blog>header .el-input{
     width: 180px!important;
     place-self: center center;
 }
-.blog>main{
+#blog>main{
         aside:first-child{
             width: 100%;
             .me{
@@ -365,7 +358,7 @@ export default {
                 transition: all .5s;
                 span>i{margin-right: 5px;}
                 .line{border: 1px solid #70A1FF;margin: 10px 0;}
-                main{
+                section{
                     display: grid;
                     grid-template-columns: repeat(3,1fr);
                     gap: 10px;
@@ -396,30 +389,25 @@ export default {
                 transition: all .5s;
                 span>i{margin-right: 5px;}
                 .line{border: 1px solid #70A1FF;margin-top: 10px;}
-                nav{
-                    li{
-                        list-style: none;
-                        line-height: 30px;
-                        border-bottom: 1px solid #ccc;
-                        font-size: 14px;
-                        &:last-child{border: 0;}
-                        label{
-                            display: flex;
-                            flex-flow: row wrap;
-                            justify-content: space-between;
-                            transition: color .5s;
-                            cursor: pointer;
-                            &:hover{color: #c23616;}
-                        }
+                li{
+                    list-style: none;
+                    line-height: 30px;
+                    border-bottom: 1px solid #ccc;
+                    font-size: 14px;
+                    &:last-child{border: 0;}
+                    label{
+                        transition: color .5s;
+                        cursor: pointer;
+                        &:hover{color: #c23616;}
                     }
-                }  
+                }
             }
         }  
 }
-.blog>footer{
+#blog>footer{
     display: flex;
     justify-content: center;
-    main{
+    section{
         display: flex;
         flex-direction: column;
         justify-content: center;

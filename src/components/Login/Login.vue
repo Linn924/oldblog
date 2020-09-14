@@ -1,16 +1,16 @@
 <template>
-    <div class="forms" style="overflow-x: hidden;">
-        <!-- 居中盒子 -->
-        <div class="form">
+    <div id="login">
 
-            <!-- 登录表单 -->
-            <div :class="showAnimate ?'Login animated bounceInLeft':'Login animated bounceOutLeft'">
+        <section>
+
+            <!-- 登录盒子 -->
+            <div :class="showAnimate ?'loginBox animated bounceInLeft':'loginBox animated bounceOutLeft'">
 
                 <!-- 左侧图片 -->
                 <div class="img"></div>
 
                 <!-- 右侧登录表单 -->
-                <div :class="changeColor ? 'login textcolor':'login'" @mouseenter="enterLogin" @mouseleave="leaveLogin">
+                <div :class="changeColor ? 'loginForm textcolor':'loginForm'" @mouseenter="enterLogin" @mouseleave="leaveLogin">
                     <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
                         <span>LOGIN</span>
                         <span>Login with your account</span>
@@ -32,11 +32,11 @@
 
             </div> 
             
-            <!-- 注册表单 -->
-            <div :class="showAnimate ?'Register animated bounceOutRight':'Register animated bounceInRight'">
+            <!-- 注册盒子 -->
+            <div :class="showAnimate ?'registerBox animated bounceOutRight':'registerBox animated bounceInRight'">
 
                 <!-- 左侧注册表单 -->
-                <div class="register">
+                <div class="registerForm">
                     <el-form ref="registerFormRef" :model="registerForm" :rules="registerRules">
                         <span>REGISTER</span>
                         <span>Register new account</span>
@@ -62,8 +62,8 @@
 
             </div> 
            
-        </div>
-        <!-- 居中盒子 end -->
+        </section>
+
     </div>
 </template>
 
@@ -147,7 +147,7 @@ export default {
              this.$refs.loginFormRef.validate( async valid => {
                 if(!valid) return
                 const {data:res} = await this.$http.post("login",this.loginForm)
-                if(res.code != 200) return this.$message({message: '登录失败',type: 'error',duration:1000})
+                if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
                 this.$message({message: `${res.tips}`,type: 'success',duration:1000});
                 window.sessionStorage.setItem('uname',res.uname)
                 window.sessionStorage.setItem('token', res.token)
@@ -167,9 +167,9 @@ export default {
         //鼠标移入登录表单 添加动画类
         enterLogin(e){
             this.changeColor = true
-            const width = document.querySelector(".form").offsetLeft
-            const height = document.querySelector(".form").offsetTop
-            let div = document.querySelector('.login>div')
+            const width = document.querySelector("section").offsetLeft
+            const height = document.querySelector("section").offsetTop
+            let div = document.querySelector('.loginForm>div')
             if(this.isIn){
                 let inx = e.clientX - e.target.offsetLeft - width
                 let iny = e.clientY - height
@@ -185,9 +185,9 @@ export default {
         leaveLogin(e){
             this.animate = false
             this.changeColor = false
-            const width = document.querySelector(".form").offsetLeft
-            const height = document.querySelector(".form").offsetTop
-            let div = document.querySelector('.login>div')
+            const width = document.querySelector("section").offsetLeft
+            const height = document.querySelector("section").offsetTop
+            let div = document.querySelector('.loginForm>div')
             if(this.isOut){
                 let inx = e.clientX - e.target.offsetLeft - width
                 let iny = e.clientY - height
@@ -208,7 +208,7 @@ a{
     color: #CBCCE2;
     &:hover{color: #0081ff;}
 }
-.forms{
+#login{
     height: 100vh;
     width: 100vw;
     min-width: 480px;
@@ -216,13 +216,14 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
-    .form{
+    overflow-x: hidden;
+    >section{
         width: 50vw;
         height: 35vw;
         position: relative;
     }
 }
-.Login{
+.loginBox{
     position: absolute;
     top: 0;
     left: 0;
@@ -237,7 +238,7 @@ a{
         -webkit-background-size: cover;//图片随屏幕大小同步缩放部分可能会被裁切
         background-position: center 50%;
     }
-    .login{
+    .loginForm{
         position: relative;
         overflow: hidden;
         flex: 1;
@@ -273,7 +274,7 @@ a{
         }
     }
 }
-.Register{
+.registerBox{
     position: absolute;
     top: 0;
     left: 0;
@@ -282,7 +283,7 @@ a{
     display: flex;
     border-radius: 5px;
     box-shadow: 5px 8px 5px #888888;//阴影
-    .register{
+    .registerForm{
         position: relative;
         overflow: hidden;
         flex: 1;

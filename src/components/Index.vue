@@ -1,5 +1,7 @@
 <template>
   <div id="index">
+
+    <!-- 背景图 -->
     <img :src="bgPath" alt="" :class="imgAnimate ? 'imgAnimateLast' : 'imgAnimateFirst'">
 
     <!-- 内容模块 -->

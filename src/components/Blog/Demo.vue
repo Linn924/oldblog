@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="demo">
         <span style="color:white;">demo</span>
     </div>
 </template>

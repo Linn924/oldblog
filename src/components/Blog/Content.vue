@@ -1,16 +1,15 @@
 <template>
-    <article id="article">
+    <div id="content">
         <!-- 博客区域 -->
         <article v-for="item in blogList" :key="item.id">
             <span @click="changePath(item)">{{item.title}}</span>
             <div>
-                <i class="fa fa-calendar"><span>{{item.date}}</span></i>
+                <i class="fa fa-calendar"><span>{{item.date | dateFormat}}</span></i>
                 <i class="fa fa-folder"><span>{{item.sort_name}}</span></i>
                 <i class="fa fa-tag"><span>{{item.technology_name}}</span></i>
             </div>
             <p>{{item.introduce}}</p>
         </article>
-        <!-- 博客区域 end-->
 
         <!-- 分页区域 -->
         <footer>
@@ -18,11 +17,9 @@
                 :current-page="queryList.pagenum" :page-sizes="[3, 5, 8]" :page-size="queryList.pagesize"
                 layout="sizes, prev, pager, next, jumper" :total="total" id="pageOne">
             </el-pagination>
-
         </footer>
-        <!-- 分页区域 end-->
         
-    </article>
+    </div>
 </template>
 
 <script>
@@ -40,6 +37,12 @@ export default {
     },
     created() {
         this.getBlogData()//获取博客数据
+    },
+    filters:{
+        date: function (value) {
+            if (!value) return ''
+            return (new Date(value)).toLocaleString()
+        },
     },
     methods: {
         //获取博客数据
@@ -78,7 +81,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-article{
+#content{
     width: 100%;
     article{
         background-color: rgba(255, 255, 255, 0.4);

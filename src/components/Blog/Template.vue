@@ -1,11 +1,11 @@
 <template>
-    <article>
+    <div id="template">
         <!-- 展示博客 -->
         <article>
             <div v-html="html" v-highlight class="markdown-body md"></div>
         </article>
 
-    </article>
+    </div>
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/css/md.css";
-article{
+#template{
     width: 100%;
     article{
         background-color: rgba(255, 255, 255, 0.5);
