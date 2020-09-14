@@ -1,19 +1,18 @@
 <template>
-        <div class="homeone">
+        <div id="homeone">
 
             <!-- 头部区域 -->
             <header>
                 <!-- 导航区域 -->
-                <ul>
+                <nav>
                     <li>Simon's Polaris</li>
                     <li v-for="item in navList" :key="item.id" class="hide">
                         <router-link :to="item.path" :class="item.id === 0 ? 'currentLi' : ''">{{item.content}}</router-link>
                     </li>
-                    <li @click="showWpBox" class="fa fa-star"></li>
+                    <li @click="showWpBox" class="fa fa-power-off"></li>
                     <li class="hide">{{uname}}&nbsp;<span @click="logout">{{status}}</span></li>
-                </ul>
+                </nav>
             </header>
-            <!-- 头部区域 end-->
 
             <!-- 中间区域 -->
             <main>
@@ -24,28 +23,24 @@
                     <p>{{famous.content}}---{{famous.author}}</p>
                     <span>By Simon's Polaris</span>
                 </article>
-                <!-- 中间文字区域 end-->
 
                 <!-- 底部路由链接 -->
-                <footer>
+                <nav>
                     <router-link :to="path" class="togather">
                         <span>EXPLORE</span>
                         <div class="triangle"></div>
                     </router-link>
-                </footer>
-                <!-- 底部路由链接 end-->
+                </nav>
 
             </main>
-            <!-- 中间区域 end-->
 
             <!-- 底部个人说明 -->
             <footer>
-                <main>
+                <section>
                     <span>© 2020 - 2021 LinnCode 版权所有</span>
                     <span> 苏ICP备20023864号</span>
-                </main>              
+                </section>              
             </footer>
-            <!-- 底部个人说明 end-->
             
             <!-- 壁纸盒子 -->
             <el-dialog
@@ -53,33 +48,17 @@
                 :visible.sync="showWallpaper" width="600px" :modal="false"
                 @open="openWD" @close="closeWD" @closed="allcloseWD" top="200px" title="壁纸切换">
                 <div class="wallpaper">
-                    <div class="wallpaperBox">
-                        <span>默认壁纸</span>
-                        <div class="default">
-                            <div class="defaultImg" v-for="item in wallpaperList" :key="item.id" v-show="item.id<3">
-                                <img v-lazy="item.path" @click="clickWpImg(item)" />
-                                <div class="smallmengban" v-show="selectImgIndex === item.id">√</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="wallpaperBox">
-                        <span>兴趣壁纸</span>
-                        <div class="default">
-                            <div class="defaultImg" v-for="item in wallpaperList" :key="item.id" v-show="item.id>2">
-                                <img v-lazy="item.path" @click="clickWpImg(item)"/>
-                                <div class="smallmengban" v-show="selectImgIndex === item.id">√</div>
-                            </div>
-                        </div>
+                    <div class="wallpaperBox" v-for="item in wallpaperList" :key="item.id">
+                        <img v-lazy="item.path" @click="clickWpImg(item)" />
+                        <div class="select" v-show="selectImgIndex === item.id">√</div>
                     </div>
                 </div>
             </el-dialog>
-            <!-- 壁纸盒子 end-->
 
              <!-- 蒙板区域 -->
             <transition>
                 <div class="mengban" v-show="showBMb"></div>
             </transition>
-            <!-- 蒙板区域 end-->
 
         </div>
 </template>
@@ -187,24 +166,59 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.homeone{
+#homeone{
     height: 100vh;
     width: 100vw;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     position: relative;
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    >header{
-        height: 8vh;
+    >header{height: 8vh;}
+    >main{
+        flex: 1;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+    }
+    >footer{
+        width: 100vw;
+        height: 5vh;
+        box-sizing: border-box;
     }
 }
-header ul{
+#homeone>header nav{
         display: flex;
         list-style: none;
         justify-content: space-around;
         li{
             line-height: 8vh;
+            &:first-child{
+                color: #fff;
+                font-size: 0.8vw;
+                letter-spacing: 2px;
+                cursor:pointer;
+                text-transform: uppercase;//定义仅有大写字母。
+                transition: all .5s;
+                &:hover{color: #1E90FF;}
+            }
+            &:last-child{
+                color: white;
+                font-size: 0.8vw;
+                letter-spacing: 2px;
+                span{
+                    color: #1E90FF;
+                    cursor: pointer;
+                    &:hover{color: #70a1ff;}
+                }
+            }
+            &:nth-child(6){
+                color: #fff;
+                font-size: 16px;
+                cursor:pointer;
+                transition: all .5s;
+                &:hover{color: #1E90FF;}
+            }
             a{
                color: white;
                font-size: 0.8vw;
@@ -215,53 +229,12 @@ header ul{
                background: rgba(255, 253, 253, 0.13);
                transition: all .5s;
                border-radius: 2px;
-               &:hover{
-                color: #1E90FF;
-               }
+               &:hover{color: #1E90FF;}
             }
         }
 }
-.currentLi{
-    color: #1E90FF!important;
-}
-header li:first-child{
-    color: #fff;
-    font-size: 0.8vw;
-    letter-spacing: 2px;
-    cursor:pointer;//鼠标悬停成小手
-    text-transform: uppercase;//定义仅有大写字母。
-    transition: all .5s;
-    &:hover{
-        color: #1E90FF;
-    }
-}
-header li:nth-child(6){
-    color: #fff;
-    font-size: 16px;
-    cursor:pointer;//鼠标悬停成小手
-    transition: all .5s;
-    &:hover{
-        color: #1E90FF;
-    }
-}
-header li:last-child{
-    color: white;
-    font-size: 0.8vw;
-    letter-spacing: 2px;
-    span{
-        color: #1E90FF;
-        cursor: pointer;
-        &:hover{
-            color: #70a1ff;
-        }
-    }
-}
-.homeone>main{
-    flex: 1;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
+.currentLi{color: #1E90FF!important;}
+#homeone>main{
     article{
         height: 80%;
         width: 80vw;
@@ -276,6 +249,8 @@ header li:last-child{
             text-transform: uppercase;
             color: white;
             padding: 2vh 0;
+            &:first-child{border-bottom: 0;}
+            &:last-child{border-top: 0;}
         }
         p{
             font-size: 1.5vw;
@@ -283,7 +258,7 @@ header li:last-child{
             text-align: center;
         }
     }
-    footer{
+    nav{
         flex: 1;
         position: relative;
         animation: shake 1s infinite;
@@ -312,33 +287,16 @@ header li:last-child{
         }
     }
 }
-.homeone>main article :nth-child(1){
-    border-bottom: 0;
-}
-.homeone>main article :nth-child(3){
-    border-top: 0;
-}
-.homeone>footer {
-    width: 100vw;
-    height: 5vh;
-    box-sizing: border-box;
-    >main{
+#homeone>footer {
+    >section{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         color: white;
         letter-spacing: 2px;
-        >span{
-            font-size: 0.6vw!important;
-        }
+        span{font-size: 0.6vw!important;}
     }
-}
-@media screen and (max-width: 700px){
-    .homeone header .hide{
-        display: none;
-    }
-    
 }
 //定义抖动动画
 @keyframes shake{
@@ -363,7 +321,7 @@ header li:last-child{
   transform: translate3d(0,-4px,0);
   }
 }
-.homeone .mengban {
+#homeone .mengban {
   position: absolute;
   top: 0;
   left: 0;
@@ -371,58 +329,35 @@ header li:last-child{
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
-.homeone .el-dialog .wallpaper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 310px;
-  overflow-y: hidden;
-  &:hover {
-    overflow-y: auto;
-  }
-  .wallpaperBox {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  span {
-    padding-bottom: 10px;
-    color: #1e90ff;
-    font-size: 14px;
-  }
-  .default {
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    box-sizing: border-box;
-    .defaultImg {
-      width: 180px;
-      height: 120px;
-      margin: 0 5px 10px 0;
-      cursor: pointer;
-      position: relative;
-      img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      .smallmengban {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        text-align: center;
-        line-height: 120px;
-        font-size: 40px;
-        color: white;
-      }
+#homeone .el-dialog .wallpaper {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(2,1fr);
+    gap: 8px;
+    height: 350px;
+    overflow-y: hidden;
+    &:hover {overflow-y: auto;}
+    .wallpaperBox{
+        position: relative;
+        img{
+            width: 100%;
+            height: 106px;
+        }
+        .select{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 106px;
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
     }
-  }
 }
 // v-enter 进入之前 v-leave-to 动画离开之后 此时,元素动画已经结束
 .v-enter,.v-leave-to{
@@ -438,5 +373,11 @@ header li:last-child{
 }
 .wallpaper::-webkit-scrollbar-thumb {
   background-color: #5a76cd;
+}
+@media screen and (max-width: 700px){
+    #homeone header .hide{
+        display: none;
+    }
+    
 }
 </style>

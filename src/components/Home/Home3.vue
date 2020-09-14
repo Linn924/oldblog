@@ -1,13 +1,13 @@
 <template>
-    <div class="homethree">
+    <div id="homethree">
 
         <!-- 头部区域 -->
         <header>
             <!-- 导航区域 -->
-            <ul>
+            <nav>
                 <li>Simon's Polaris</li>
-               <li @click="showWpBox" class="fa fa-star"></li>
-            </ul>
+                <li @click="showWpBox" class="fa fa-power-off"></li>
+            </nav>
         </header>
 
         <!-- 中间区域内容 -->
@@ -42,10 +42,10 @@
 
         <!-- 底部个人说明 -->
         <footer>
-            <main>
+            <section>
                 <span>© 2020 - 2021 LinnCode 版权所有</span>
                 <span> 苏ICP备20023864号</span>
-            </main>
+            </section>
         </footer>
         
          <!-- 壁纸盒子 -->
@@ -54,23 +54,9 @@
             :visible.sync="showWallpaper" width="600px" :modal="false"
             @open="openWD" @close="closeWD" @closed="allcloseWD" top="200px" title="壁纸切换">
             <div class="wallpaper">
-                <div class="wallpaperBox">
-                    <span>默认壁纸</span>
-                    <div class="default">
-                        <div class="defaultImg" v-for="item in wallpaperList" :key="item.id" v-show="item.id<3">
-                            <img v-lazy="item.path" @click="clickWpImg(item)" />
-                            <div class="smallmengban" v-show="selectImgIndex === item.id">√</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="wallpaperBox">
-                    <span>兴趣壁纸</span>
-                    <div class="default">
-                        <div class="defaultImg" v-for="item in wallpaperList" :key="item.id" v-show="item.id>2">
-                            <img v-lazy="item.path" @click="clickWpImg(item)"/>
-                            <div class="smallmengban" v-show="selectImgIndex === item.id">√</div>
-                        </div>
-                    </div>
+                <div class="wallpaperBox" v-for="item in wallpaperList" :key="item.id">
+                    <img v-lazy="item.path" @click="clickWpImg(item)" />
+                    <div class="select" v-show="selectImgIndex === item.id">√</div>
                 </div>
             </div>
         </el-dialog>
@@ -205,51 +191,54 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.homethree{
+#homethree{
     position: relative;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    >header{height: 8vh;}
+    >main{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    >footer{
+        width: 100vw;
+        height: 5vh;
+    }
 }
-.homethree>header {
-  height: 8vh;
-  ul {
+#homethree>header {
+  nav{
     display: flex;
     list-style: none;
     justify-content: space-around;
     li {
       line-height: 8vh;
       color: #fff;
-      cursor: pointer; //鼠标悬停成小手
-      text-transform: uppercase; //定义仅有大写字母。
+      cursor: pointer;
+      text-transform: uppercase;
       transition: all 0.5s;
-      &:hover {
-        color: #1E90FF;
+      &:first-child{
+        color: #fff;
+        font-size: 0.8vw;
+        letter-spacing: 2px;
+        cursor:pointer;//鼠标悬停成小手
+        transition: all .5s;
+        &:hover{color: #1E90FF;}
       }
+      &:last-child{
+        color: #fff;
+        font-size: 16px;
+        cursor:pointer;//鼠标悬停成小手
+        transition: all .5s;
+        &:hover{color: #1E90FF;} 
+      }
+      &:hover {color: #1E90FF;}
     }
   }
 }
-header li:first-child{
-    color: #fff;
-    font-size: 0.8vw;
-    letter-spacing: 2px;
-    cursor:pointer;//鼠标悬停成小手
-    transition: all .5s;
-    &:hover{color: #1E90FF;}
-}
-header li:last-child{
-    color: #fff;
-    font-size: 16px;
-    cursor:pointer;//鼠标悬停成小手
-    transition: all .5s;
-    &:hover{color: #1E90FF;} 
-}
-.homethree>main{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#homethree>main{
     .todoList{
         width: 30vw;
         margin-top: 20px;
@@ -285,10 +274,8 @@ header li:last-child{
         }
     }
 }
-.homethree>footer {
-    width: 100vw;
-    height: 5vh;
-    main{
+#homethree>footer {
+    section{
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -298,7 +285,7 @@ header li:last-child{
         span{font-size: 0.6vw;}
     }
 }
-.homethree .mengban {
+#homethree .mengban {
   position: absolute;
   top: 0;
   left: 0;
@@ -306,63 +293,35 @@ header li:last-child{
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
-.homethree .el-dialog .wallpaper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 310px;
-  overflow-y: hidden;
-  &:hover {
-    overflow-y: auto;
-  }
-  .wallpaperBox {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    .el-button{
-      width: 80px;
+#homethree .el-dialog .wallpaper {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(2,1fr);
+    gap: 8px;
+    height: 350px;
+    overflow-y: hidden;
+    &:hover {overflow-y: auto;}
+    .wallpaperBox{
+        position: relative;
+        img{
+            width: 100%;
+            height: 106px;
+        }
+        .select{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 106px;
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
     }
-  }
-  span {
-    padding-bottom: 10px;
-    color: #1e90ff;
-    font-size: 14px;
-  }
-  .default {
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    box-sizing: border-box;
-    .defaultImg {
-      width: 180px;
-      height: 120px;
-      margin: 0 7px 10px 0;
-      cursor: pointer;
-      position: relative;
-      &:nth-child(3n) {
-        margin-right: 0;
-      }
-      img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      .smallmengban {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        text-align: center;
-        line-height: 120px;
-        font-size: 40px;
-        color: white;
-      }
-    }
-  }
 }
 // v-enter 进入之前 v-leave-to 动画离开之后 此时,元素动画已经结束
 .v-enter,.v-leave-to{

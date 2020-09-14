@@ -5,18 +5,17 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <div class="router"><homeone-vue @changeWallpaper="changeWallpaper($event)"></homeone-vue></div>
-                <div class="img-box"><img :src="defaultImg.path1" class="image"></div>
+                <div class="img-box"><img :src="bgObj.path1" class="image"></div>
             </div>
             <div class="swiper-slide">
                 <div class="router"><hometwo-vue @changeWallpaper="changeWallpaper($event)"></hometwo-vue></div>
-                <div class="img-box"><img :src="defaultImg.path2" class="image"></div>
+                <div class="img-box"><img :src="bgObj.path2" class="image"></div>
             </div>
             <div class="swiper-slide">
                 <div class="router"><homethree-vue @changeWallpaper="changeWallpaper($event)"></homethree-vue></div>
-                <div class="img-box"><img :src="defaultImg.path3" class="image"></div>
+                <div class="img-box"><img :src="bgObj.path3" class="image"></div>
             </div>
         </div>
-        <!-- 轮播图 end-->
 
         <!-- 左按钮 -->
         <div class="button-prev button">
@@ -32,7 +31,6 @@
                 </g>
             </svg>
         </div>
-        <!-- 左按钮 end-->
 
         <!--右按钮-->
         <div class="button-next button">
@@ -48,13 +46,12 @@
                 </g>
             </svg>
         </div>
-        <!--右按钮 end-->
 
     </div>
 </template>
 
 <script>
-//引入三个子组件
+//引入子组件
 import homeoneVue from './Home1.vue'
 import hometwoVue from './Home2.vue'
 import homethreeVue from './Home3.vue'
@@ -66,7 +63,7 @@ export default {
             bgColor: ["rgb(43,43,41)", "rgb(215,215,215)", "rgb(165,149,54)"],//背景色
             lock:false,//解除禁止点击按钮
             wpList:[],//壁纸数据
-            defaultImg:{//默认壁纸数据
+            bgObj:{//默认壁纸数据
                 path1:'',
                 path2:'',
                 path3:''
@@ -146,18 +143,18 @@ export default {
           const {data:res} = await this.$http.get('wallpaperdata')
           if(res.code != 200) return this.$message({message: `${res.tips}`,type: 'error',duration:1000})
           this.wpList = res.data.filter(item => item.id < 4)
-          this.defaultImg.path1 = this.wpList[0].newpath
-          this.defaultImg.path2 = this.wpList[1].newpath
-          this.defaultImg.path3 = this.wpList[2].newpath
+          this.bgObj.path1 = this.wpList[0].newpath
+          this.bgObj.path2 = this.wpList[1].newpath
+          this.bgObj.path3 = this.wpList[2].newpath
         },
         //修改当前壁纸路径
         changeWallpaper(data){
             if(data.id == 0){
-                this.defaultImg.path1 = data.path
+                this.bgObj.path1 = data.path
             }else if(data.id == 1){
-                this.defaultImg.path2 = data.path
+                this.bgObj.path2 = data.path
             }else{
-                this.defaultImg.path3 = data.path
+                this.bgObj.path3 = data.path
             }
         }
     },

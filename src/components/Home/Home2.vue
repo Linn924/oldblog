@@ -1,13 +1,12 @@
 <template>
-  <div class="hometwo" @click="shakeIndex = 0">
+  <div id="hometwo" @click="shakeIndex = 0">
 
     <!-- 头部区域 -->
     <header>
-      <!-- 导航区域 -->
-      <ul>
+      <nav>
         <li>Simon's Polaris</li>
-        <li @click="showWallpaper = true" class="fa fa-star"></li>
-      </ul>
+        <li @click="showWallpaper = true" class="fa fa-power-off"></li>
+      </nav>
     </header>
 
     <!-- 主体区域 -->
@@ -35,9 +34,9 @@
 
       <!-- 宫格区域 -->
       <div class="block">
-        <ul>
+        <nav>
           <li v-for="item in blockList" :key="item.id">
-            <div :class="item.id === shakeIndex ? 'Icon shake' : 'Icon' ">
+            <div :class="item.id === shakeIndex ? 'icon shake' : 'icon' ">
                 <a :href="item.href" target="_blank">
                   <div :class="item.id === twinkleIndex ? 'circle twinkle' : 'circle' "></div>
                   <img :src="item.newpath" alt="" @mouseenter="twinkleIndex = item.id" @mouseout="twinkleIndex = 0" 
@@ -50,17 +49,17 @@
             </div>
             <span>{{item.content}}</span>
           </li>
-        </ul>
+        </nav>
       </div>
 
     </main>
 
     <!-- 底部个人说明 -->
     <footer>
-        <main>
+        <section>
             <span>© 2020 - 2021 LinnCode 版权所有</span>
             <span> 苏ICP备20023864号</span>
-        </main>
+        </section>
     </footer>
 
     <!-- 壁纸盒子 -->
@@ -367,62 +366,60 @@
 </script>
 
 <style lang="less" scoped>
-.hometwo {
+#hometwo {
   height: 100vh;
   width: 100vw;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   position: relative;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  >header{height: 6vh;}
+  >main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100vw;
+  }
+  >footer{
+    width: 100vw;
+    height: 5vh;
+  }
 }
-.hometwo>header {
-  height: 6vh;
-  ul {
+#hometwo>header {
+  nav{
     display: flex;
     list-style: none;
     justify-content: space-around;
     li {
       line-height: 6vh;
       color: #fff;
-      cursor: pointer; //鼠标悬停成小手
-      text-transform: uppercase; //定义仅有大写字母。
+      cursor: pointer;
+      text-transform: uppercase;
       transition: all 0.5s;
-      &:hover {
-        color: #238EF7;
+      &:first-child{
+        color: #fff;
+        font-size: 0.8vw;
+        letter-spacing: 2px;
+        cursor:pointer;//鼠标悬停成小手
+        transition: all .5s;
+        &:hover{color: #1E90FF;}
       }
+      &:last-child{
+        color: #fff;
+        font-size: 16px;
+        cursor:pointer;//鼠标悬停成小手
+        transition: all .5s;
+        &:hover{
+            color: #1E90FF;
+        }
+      }
+      &:hover {color: #238EF7;}
     }
   }
 }
-header li:first-child{
-    color: #fff;
-    font-size: 0.8vw;
-    letter-spacing: 2px;
-    cursor:pointer;//鼠标悬停成小手
-    transition: all .5s;
-    &:hover{
-        color: #1E90FF;
-    }
-}
-header li:last-child{
-    color: #fff;
-    font-size: 16px;
-    cursor:pointer;//鼠标悬停成小手
-    transition: all .5s;
-    &:hover{
-        color: #1E90FF;
-    }
-    
-}
-.hometwo>main{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  width: 100vw;
-}
-.hometwo .search {
+#hometwo .search {
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -500,46 +497,17 @@ header li:last-child{
   }
   
 }
-//放大search的类
-.enlarge{
-    animation: enlarge .5s forwards;
-}
-@keyframes enlarge {
-    0%{
-        width: 180px;
-    }
-    100%{
-        width: 360px;
-    }
-}
-//缩小search的类
-.narrow{
-    animation: narrow .5s forwards;
-}
-@keyframes narrow {
-    0%{
-        width: 360px;
-    }
-    100%{
-        width: 180px;
-    }
-}
-.hometwo .block {
-  width: 57.9vw;
-  height: 58vh;
-  justify-content: center;
-  transition: all 1s;
-  ul {
-    display: flex;
-    box-sizing: border-box;
-    flex-flow: row wrap;
+#hometwo .block {
+  nav {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    grid-template-rows: repeat(3,1fr);
+    place-items: center center;
+    row-gap: 10.4vh;
+    column-gap: 5.2vw;
     li {
-      width: 5.2vw;
-      height: 6.4vw;
-      margin: 0 5.2vw 10.4vh 0;
-      display: flex;
-      flex-direction: column;
-      .Icon{
+      list-style: none;
+      .icon{
         width: 5.2vw;
         height: 5.2vw;
         border-radius: 50%;
@@ -547,8 +515,6 @@ header li:last-child{
         position: relative;
         a {
           display: block;
-          width: 5.2vw;
-          height: 5.2vw;
           position: relative;
           .circle {
             width: 5.2vw;
@@ -583,10 +549,8 @@ header li:last-child{
             width: 2vw;
             color: white;
             font-size: 1.8vw;
-            transition: all 1s;
-            &:hover{
-              color: #1E90FF;
-            }
+            transition: all .4s;
+            &:hover{color: #1E90FF;}
           }
           .el-icon-circle-close {
             position: absolute;
@@ -594,10 +558,8 @@ header li:last-child{
             left: 4vw;
             color: white;
             font-size: 1.8vw;
-            transition: all 1s;
-            &:hover{
-              color: #1E90FF;
-            }
+            transition: all .4s;
+            &:hover{color: #1E90FF;}
           }
         } 
       }
@@ -610,75 +572,18 @@ header li:last-child{
     }
   }
 }
-.block ul li:nth-child(6n) {
-  margin-right: 0 !important;
-}
-//给block定义circle动画的类
-.twinkle {
-  animation: twinkle 1.5s linear infinite;
-}
-//定义circle动画
-@keyframes twinkle {
-  0% {
-    filter: blur(1px);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2, 1.2);
-    filter: blur(2px);
-    opacity: 0.3;
-  }
-  75% {
-    transform: scale(1.1, 1.1);
-    filter: blur(2px);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(1.1, 1.1);
-    filter: blur(1px);
-    opacity: 0.1;
-  }
-}
-//给block中的a定义shake动画的类
-.shake {
-  animation: shake 0.2s linear infinite;
-}
-//定义shake动画
-@keyframes shake {
-  0% {
-  }
-  50% {
-    transform: rotate(-3deg);
-  }
-  100% {
-    transform: rotate(3deg);
-  }
-}
-//定义一个蒙板类
-.hometwo .mengban {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
-.hometwo footer {
-    width: 100vw;
-    height: 5vh;
-    main{
+#hometwo footer {
+    section{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         color: white;
         letter-spacing: 2px;
-        span{
-            font-size: 0.6vw;
-        }
+        span{font-size: 0.6vw;}
     }
 }
-.hometwo .el-dialog .wallpaper {
+#hometwo .el-dialog .wallpaper {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -756,15 +661,8 @@ header li:last-child{
         font-size: 50px;
     }
 }
-/*壁纸盒子滚动条样式*/
-.wallpaper::-webkit-scrollbar {
-  width: 4px;
-}
-.wallpaper::-webkit-scrollbar-thumb {
-  background-color: #5a76cd;
-}
 //抽屉(编辑block)
-.hometwo .el-drawer{
+#hometwo .el-drawer{
   .el-input{
     width: 88%;
     margin: 0 0 20px 20px;
@@ -796,7 +694,7 @@ header li:last-child{
     margin-left: 20px;
   }
 }
-.hometwo .el-drawer .uploadText{
+#hometwo .el-drawer .uploadText{
   position: relative;
   width: 70px;
   height: 30px;
@@ -813,6 +711,15 @@ header li:last-child{
       }
   }
 }
+//定义一个蒙板类
+#hometwo .mengban {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
 // v-enter 进入之前 v-leave-to 动画离开之后 此时,元素动画已经结束
 .v-enter,.v-leave-to{
     opacity: 0;
@@ -820,5 +727,77 @@ header li:last-child{
 //v-enter-active 入场动画的时间段 v-leave-active 离场动画的时间段
 .v-enter-active,.v-leave-active{
     transition: all 1s;
+}
+/*壁纸盒子滚动条样式*/
+.wallpaper::-webkit-scrollbar {
+  width: 4px;
+}
+.wallpaper::-webkit-scrollbar-thumb {
+  background-color: #5a76cd;
+}
+//block icon底部背景若隐若现
+.twinkle {
+  animation: twinkle 1.5s linear infinite;
+}
+//定义底部背景若隐若现动画
+@keyframes twinkle {
+  0% {
+    filter: blur(1px);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2, 1.2);
+    filter: blur(2px);
+    opacity: 0.3;
+  }
+  75% {
+    transform: scale(1.1, 1.1);
+    filter: blur(2px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.1, 1.1);
+    filter: blur(1px);
+    opacity: 0.1;
+  }
+}
+//block icon抖动
+.shake {
+  animation: shake 0.2s linear infinite;
+}
+//定义抖动动画
+@keyframes shake {
+  0% {
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
+}
+//放大search的类
+.enlarge{
+    animation: enlarge .4s forwards;
+}
+@keyframes enlarge {
+    0%{
+        width: 180px;
+    }
+    100%{
+        width: 360px;
+    }
+}
+//缩小search的类
+.narrow{
+    animation: narrow .4s forwards;
+}
+@keyframes narrow {
+    0%{
+        width: 360px;
+    }
+    100%{
+        width: 180px;
+    }
 }
 </style>
