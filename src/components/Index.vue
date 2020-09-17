@@ -1,8 +1,16 @@
 <template>
   <div id="index">
 
+    <!-- 页面加载进度条 -->
+    <div class="loading">
+        <div class="progress">
+            <span></span>
+            <b>0%</b>
+        </div>
+    </div>
+
     <!-- 背景图 -->
-    <img :src="bgPath" alt="" :class="imgAnimate ? 'imgAnimateLast' : 'imgAnimateFirst'">
+    <img :src="bgPath" :class="imgAnimate ? 'imgAnimateLast' : 'imgAnimateFirst'">
 
     <!-- 内容模块 -->
     <section :class="sectionAnimate ? 'sectionAnimateLast' : 'sectionAnimateFirst'">
@@ -26,61 +34,13 @@
         <!-- 功能模块 -->
         <div class="container">
             <div class="con">
-                <div class="box">
+                <div class="box" v-for="item in containerList" :key="item.id">
                     <div class="content">
-                        <router-link to="/blog">
-                            <img src="../assets/image/blog.png" alt="">
+                        <router-link :to="item.path">
+                            <img :src="item.src" alt="">
                         </router-link>
                     </div>
-                    <p>个人博客</p>
-                </div>
-                <div class="box">
-                    <div class="content">
-                        <router-link to="/link">
-                            <img src="../assets/image/nav.png" alt="">
-                        </router-link>
-                    </div>
-                    <p>简约导航</p>
-                </div>
-                <div class="box">
-                    <div class="content">
-                        <router-link to="/home">
-                            <img src="../assets/image/home.png" alt="">
-                        </router-link>
-                    </div>
-                    <p>个人中心</p>
-                </div>
-                <div class="box">
-                    <div class="content">
-                        <router-link to="/life">
-                            <img src="../assets/image/life.png" alt="">
-                        </router-link>
-                    </div>
-                    <p>生活乐趣</p>
-                </div>
-                <div class="box">
-                    <div class="content">
-                        <router-link to="/link">
-                            <img src="../assets/image/complete.png" alt="">
-                        </router-link>
-                    </div>
-                    <p>完整样本</p>
-                </div>
-                <div class="box">
-                    <div class="content">
-                        <router-link to="/link">
-                            <img src="../assets/image/effect.png" alt="">
-                        </router-link>
-                    </div>
-                    <p>效果样板</p>
-                </div>
-                <div class="box">
-                    <div class="content">
-                        <router-link to="/link">
-                            <img src="../assets/image/message.png" alt="">
-                        </router-link>
-                    </div>
-                    <p>留言板</p>
+                    <p>{{item.title}}</p>
                 </div>
                 <div class="box" @click="setting">
                     <div class="content">
@@ -102,11 +62,12 @@
         <!-- 设置中心 -->
         <div class="setting">
             <div class="bgBox">
-                <div class="box">
+                <div class="Box">
                     <span>默认壁纸</span>
-                    <div class="imgBox">
+                    <div class="imgBox" @scroll="scroll">
                         <div class="img" v-for="item in imgList" :key="item.id">
-                            <img v-lazy="item.defaultpath" alt="" @click="clickImg(item)">
+                            <img src="../assets/image/blog.png" 
+                            :data-src="item.defaultpath" alt="" @click="clickImg(item)">
                             <div class="select" v-show="selectImgIndex === item.id">√</div>
                         </div>
                     </div>
@@ -130,16 +91,27 @@ export default {
       imgAnimate:true,//控制imgAnimate使用某种动画
       time:'',//当前时间
       date:'',//当前日期
+      containerList:[//功能数据
+          {id:0,path:'/blog',src:require('../assets/image/blog.png'),title:'个人博客'},
+          {id:1,path:'/link',src:require('../assets/image/nav.png'),title:'简约导航'},
+          {id:2,path:'/home',src:require('../assets/image/home.png'),title:'个人中心'},
+          {id:3,path:'/life',src:require('../assets/image/life.png'),title:'生活乐趣'},
+          {id:4,path:'/link',src:require('../assets/image/complete.png'),title:'完整样本'},
+          {id:5,path:'/link',src:require('../assets/image/effect.png'),title:'效果样板'},
+          {id:6,path:'/link',src:require('../assets/image/message.png'),title:'留言板'}
+      ],
       imgList:[],//图片数据
       selectImgIndex:-1,////选中的壁纸的下标
       bgPath:'',//背景图片地址
     }
   },
   created(){
-    //初始化 使得页面渲染完成之前页面中有数据展示
-    this.nowTime()
+    this.nowTime()//初始化 使得页面渲染完成之前页面中有时间数据展示
     setInterval(this.nowTime,1000)
-    this.getIndexBgData()
+    this.getIndexBgData()//调用获取背景图片数据
+  },
+  mounted(){
+    this.loading()//页面加载出现百分比进度条
   },
   methods:{
     //处理时间和日期
@@ -167,12 +139,14 @@ export default {
             this.sectionAnimate = true
             this.imgAnimate = true
             this.flag = true
+            this.clickSetting = false
         } 
     },
     //设置中心按钮
     setting(){
-        var section = document.querySelector('section')
-        section.style.top = '-200vh'
+        document.querySelector('section').style.top = '-200vh'
+        //初始化懒加载
+        this.start(0)
     },
     // 获取背景图片数据
     async getIndexBgData(){
@@ -189,8 +163,7 @@ export default {
     },
     //点击设置中心的向上的箭头
     clickUpAgain(){
-        var section = document.querySelector('section')
-        section.style.top = '-100vh'
+        document.querySelector('section').style.top = '-100vh'
     },
     //点击图片 切换背景
     async clickImg(data){
@@ -199,12 +172,55 @@ export default {
         const {data:res} = await this.$http.post('updateIndexBg',{newpath:data.defaultpath})
         if(res.code != 200) return this.$message({message:`${res.tips}`,type:'error',duration:1000})
         this.$message({message:`${res.tips}`,type:'success',duration:1000})
+    },
+    //页面加载百分比
+    loading(){
+        var sum = 0
+        var imgList = document.querySelectorAll('img')
+        imgList.forEach( (item,index) => {
+            var proImg = new Image()
+            proImg.onload = () => {
+                proImg.onload = null
+                sum++
+                var progress = parseInt(sum / imgList.length * 100)
+                document.querySelector('.loading b').innerHTML = progress + '%'
+                if(sum >= index){document.querySelector('.loading').classList.add('fadeOut')}
+            }
+            proImg.src = imgList[index].src
+        })
+    },
+    //imgBox滚动时触发
+    scroll(e){
+        //e.target.scrollTop 获取滚动的高度
+        this.start(e.target.scrollTop)
+    },
+    //图片是否懒加载
+    start(scrollTop){
+        //已加载的图片过滤
+        var imgList = document.querySelectorAll('.img img:not([data-isLoaded])')
+        imgList.forEach( item => {
+            if(this.isShow(item,scrollTop)){
+                this.lazy(item)
+            }
+        })
+    },
+    //图片懒加载
+    lazy(img){
+        img.setAttribute('src',img.getAttribute('data-src'))//把data-src的值 赋值给src
+        img.setAttribute('data-isLoaded', true) //已加载过的图片做标记
+        img.classList.add('fadeIn') //给图片加动画
+    },
+    //判断图片是否在视窗内
+    isShow(img,scrollTop){
+        return img.parentNode.offsetTop - 41 <= 250 + scrollTop
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+
+// 基础样式
 #index{
     width: 100%;
     height: 100vh;
@@ -213,7 +229,7 @@ export default {
     >section{
         width: 100%;
         position: relative;
-        transition: all .5s;
+        transition: top .5s;
     }
     >img{
         width: 100vw;
@@ -223,7 +239,46 @@ export default {
         animation: img 1s ease-out forwards;
         transition: all .5s;
     }
+    .loading{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #0B183A;
+    }
 }
+
+// 加载元素
+.loading{
+    .progress{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        line-height: 100px;
+        font-size: 24px;
+        span{
+            display: block;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 3px 0 #666;
+            animation: loading 1s infinite linear;
+        }
+        b{color: #fff;}
+    }
+}
+
+// 首页时间等元素
 .bg{
     position: relative;
     width: 100%;
@@ -294,65 +349,8 @@ export default {
         &:nth-child(5){bottom: 0vh;animation: bg_i 1s .5s infinite;}
     }
 }
-/* 设置动画 */
-@keyframes bg_h1 {
-    form{
-        top:70%;
-        opacity: 0;
-    }
-    to{
-        top:30%;
-        opacity: 1;
-    }
-}
-@keyframes bg_p {
-    form{
-        top:80%;
-        opacity: 0;
-    }
-    to{
-        top:50%;
-        opacity: 1;
-    }
-}
-@keyframes bg_h5 {
-    form{
-        opacity: 0;
-    }
-    to{
-        opacity: 1;
-    }
-}
-@keyframes bg_h6 {
-    form{
-        top: 100%;
-        opacity: 0;
-    }
-    to{
-        top: 80%;
-        opacity: 1;
-    }
-}
-@keyframes img {
-    form{
-        transform: scale(1.6);
-    }
-    to{
-        transform: scale(1);
-    }
-}
-@keyframes bg_i {
-    0%{
-        opacity: 1;
-    }
-    50%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
-}
-/* 下半部分 */
+
+// 上下页箭头元素
 .up{
     cursor: pointer;
     >i{
@@ -366,6 +364,21 @@ export default {
         &:last-child{top: 102vh;animation: bg_i 1s .5s infinite;}
     }
 }
+.upAgain{
+    cursor: pointer;
+    >i{
+        z-index: 1;
+        color: #fff;
+        position: absolute;
+        top: 200vh;
+        left: 50%;
+        transform: translateX(-50%);
+        &:first-child{animation: bg_i 1s infinite;}
+        &:last-child{top: 202vh;animation: bg_i 1s .5s infinite;}
+    }
+}
+
+// 功能元素
 .container{
     position: relative;
     width: 100%;
@@ -378,11 +391,8 @@ export default {
     .con{
         background-color: rgba(255,255,255,0.1);
         border-radius: 20px;
-        /* 毛玻璃背景效果 */
         backdrop-filter: blur(15px);
-        /* 网格布局 */
         display: grid;
-        /* 设置四列两行 */
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         gap: 20px;
@@ -397,22 +407,19 @@ export default {
         border: 1px solid rgba(255,255,255,0);
         transform: border .5s;
         cursor: pointer;
+        &:hover{
+            border: 1px solid rgba(255,255,255,1);
+            transform: border .5s;
+        }
     }
     .content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
         width: 100%;
         height: 100%;
     }
+    img{width: 100px;}
 }
-.container .box:hover{
-    border: 1px solid rgba(255,255,255,1);
-    transform: border .5s;
-}
-.container a img{
-    width: 100px;
-}
+
+// 动态添加修改类
 #index .sectionAnimateFirst{
     top: -100vh;
 }
@@ -429,19 +436,14 @@ export default {
     height: 100%;
     left: 0;
 }
-.upAgain{
-    cursor: pointer;
-    >i{
-        z-index: 1;
-        color: #fff;
-        position: absolute;
-        top: 200vh;
-        left: 50%;
-        transform: translateX(-50%);
-        &:first-child{animation: bg_i 1s infinite;}
-        &:last-child{top: 202vh;animation: bg_i 1s .5s infinite;}
-    }
+#index .fadeOut{
+    animation: fadeOut 1s linear forwards;
 }
+#index .fadeIn{
+    animation:fadeIn 2s linear forwards;
+}
+
+// 设置中心样式
 .setting{
     width: 100%;
     height: 100vh;
@@ -459,7 +461,7 @@ export default {
         // grid-template-columns: 1fr;
         // grid-template-rows: 1fr;
     }
-    .box{
+    .Box{
         width: 100%;
         height: 100%;
         display: flex;
@@ -467,7 +469,7 @@ export default {
     }
 
 }
-.setting .box{
+.setting .Box{
     >span{margin: 0 0 10px 10px;}
     .imgBox{
         height: 240px;
@@ -505,12 +507,52 @@ export default {
         }
     }
 }
-/*壁纸盒子滚动条样式*/
+
+// 壁纸盒子滚动条样式
 .imgBox::-webkit-scrollbar {
   width: 4px;
 }
 .imgBox::-webkit-scrollbar-thumb {
   background-color: #131E3A;
   border-radius: 2px;
+}
+
+// 动画
+@keyframes loading {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+@keyframes fadeOut {
+    0%{opacity: 1;}
+    100%{opacity: 0;}
+}
+@keyframes fadeIn {
+    0%{opacity: 0}
+    100%{opacity: 1}
+}
+@keyframes bg_h1 {
+    form{top:70%;opacity: 0;}
+    to{top:30%;opacity: 1;}
+}
+@keyframes bg_p {
+    form{top:80%;opacity: 0;}
+    to{top:50%;opacity: 1;}
+}
+@keyframes bg_h5 {
+    form{opacity: 0;}
+    to{opacity: 1;}
+}
+@keyframes bg_h6 {
+    form{top: 100%;opacity: 0;}
+    to{top: 80%;opacity: 1;}
+}
+@keyframes img {
+    form{transform: scale(1.6);}
+    to{transform: scale(1);}
+}
+@keyframes bg_i {
+    0%{opacity: 1;}
+    50%{opacity: 0;}
+    100%{opacity: 1;}
 }
 </style>
