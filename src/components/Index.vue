@@ -238,6 +238,7 @@ export default {
         transform: scale(1.6);
         animation: img 1s ease-out forwards;
         transition: all .5s;
+        object-fit: cover;
     }
     .loading{
         width: 100%;

@@ -209,7 +209,7 @@ export default {
 #blog{
     width: 100vw;
     min-height: 100vh;
-    background: url(https://s1.ax1x.com/2020/05/28/te3Z79.jpg) no-repeat;
+    background: url(https://s1.ax1x.com/2020/05/28/te3Z79.jpg) no-repeat center;
     background-attachment:fixed;
     background-size: cover;
     >header{
