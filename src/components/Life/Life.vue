@@ -7,7 +7,7 @@
     <!-- 轮播图 -->
     <el-carousel :interval="5000" height="40vw" arrow="never">
       <el-carousel-item v-for="item in img" :key="item.id">
-        <img v-lazy="item.src" alt="">
+        <img :src="item.src" alt="">
         <div class="menban"></div>
       </el-carousel-item>
     </el-carousel>
@@ -52,7 +52,7 @@
         <label><span>Functional</span> Module</label>
         <div class="block">
             <div class="item" v-for="item in blockData" :key="item.id" @click="showBlockDialog(item.src)">
-              <img v-lazy="item.src">
+              <img :src="item.src">
               <div>
                 <p>{{item.span1}}</p>
                 <p>{{item.span2}}</p>
@@ -63,7 +63,7 @@
 
     <!-- 九宫格对话框展示 -->
     <el-dialog :visible.sync="blockDialog" width="35%" class="blockDialog">
-        <img v-lazy="blockDialogData.imgPath">
+        <img :src="blockDialogData.imgPath">
         <span>测试</span>
         <el-button type="primary">Get into</el-button>
     </el-dialog>

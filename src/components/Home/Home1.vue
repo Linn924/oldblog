@@ -49,7 +49,7 @@
                 @open="openWD" @close="closeWD" @closed="allcloseWD" top="200px" title="壁纸切换">
                 <div class="wallpaper">
                     <div class="wallpaperBox" v-for="item in wallpaperList" :key="item.id">
-                        <img v-lazy="item.path" @click="clickWpImg(item)" />
+                        <img :src="item.path" @click="clickWpImg(item)" />
                         <div class="select" v-show="selectImgIndex === item.id">√</div>
                     </div>
                 </div>

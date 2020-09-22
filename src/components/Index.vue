@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <!-- 设置中向上的按钮 -->
+        <!-- 设置中心向上的按钮 -->
         <div class="upAgain" @click="clickUpAgain">
             <i class="fa fa-angle-up fa-3x" aria-hidden="true"></i>
             <i class="fa fa-angle-up fa-3x" aria-hidden="true"></i>

@@ -72,7 +72,7 @@
           <span>默认壁纸</span>
           <div class="default">
             <div class="defaultImg" v-for="item in wallpaperList" :key="item.id" v-show="item.id<3">
-              <img v-lazy="item.path" @click="clickWpImg(item)" />
+              <img :src="item.path" @click="clickWpImg(item)" />
               <div class="smallmengban" v-show="selectImgIndex === item.id">√</div>
             </div>
           </div>
@@ -81,7 +81,7 @@
           <span>兴趣壁纸</span>
           <div class="default">
             <div class="defaultImg" v-for="item in wallpaperList" :key="item.id" v-show="item.id>2">
-              <img v-lazy="item.path" @click="clickWpImg(item)" @contextmenu.prevent="deleteImgIndex = item.id"/>
+              <img :src="item.path" @click="clickWpImg(item)" @contextmenu.prevent="deleteImgIndex = item.id"/>
               <div class="smallmengban" v-show="selectImgIndex === item.id">√</div>
               <div class="smallmengban" v-show="deleteImgIndex === item.id" @click="deleteWpImg(item)">X</div>
             </div>
