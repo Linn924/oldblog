@@ -7,7 +7,7 @@
 
         <!-- 初始界面 -->
        <div class="begin" :style="{'backdropFilter':flag?'blur(10px)':''}">
-            <h1 @click="clickTime">18:00</h1>
+            <h1 @click="clickTime">{{time}}</h1>
             <div :class="flagTime?'search searchHide':'search searchShow'" 
                 @mouseover="enlarge" @mouseout="narrow">
                 <input type="text" :class="{enlarge:isEnlarge,narrow:isNarrow}"
@@ -47,6 +47,7 @@
 export default {
     data(){
         return {
+            time:'',//当前时间
             flag:false,//控制遮罩和图片放大
             beGlass:true,//是否展示毛玻璃
             flagGlass:false,//是否点击毛玻璃
@@ -110,6 +111,8 @@ export default {
                 }
             }
         }        
+        this.nowTime()//初始化 使得页面渲染完成之前页面中有时间数据展示
+        setInterval(this.nowTime,1000)
     },
     watch:{
         //监听点击搜索框 添加点击事件和移出点击事件
@@ -125,6 +128,13 @@ export default {
         }
     },
     methods:{
+        //处理时间和日期
+        nowTime(){
+            var t = new Date()
+            var h = t.getHours() > 9 ? t.getHours() : '0' + t.getHours()
+            var m = t.getMinutes() > 9 ? t.getMinutes() : '0' + t.getMinutes()
+            this.time = h + ':' + m
+        },
         //搜索界面添加点击事件
         addevent(e){
             if(e.target.className !='iconSpan' && e.target.nodeName.toLowerCase() != 'input' && e.target.nodeName.toLowerCase() != 'li'){
