@@ -5,7 +5,7 @@ import store from './store'
 import './assets/css/global.css'
 import './assets/css/atom-one-dark.css'
 import animate from 'animate.css'
-
+import './assets/font/iconfont.css'
 
 // axios.defaults.baseURL='http://139.196.210.43:0924/'
 axios.defaults.baseURL='http://127.0.0.1:8888/'
