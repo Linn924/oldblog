@@ -7,7 +7,6 @@
 
         <!-- 开始界面 -->
        <div class="start" :style="{'backdropFilter':flag?'blur(10px)':''}">
-
             <!-- 时间模块 -->
             <h1 @click="clickTime">{{time}}</h1>
             <!-- 搜索框涉及的所有模块 -->
@@ -22,7 +21,7 @@
                     @click="clickGlass" v-show="beGlass">
                 </div>
                 <!-- 可选择的搜索引擎模块 -->
-                <div :class="{icon:true,iconShow:isIconShow,iconHide:isIconHide}" @click="clickIcon($event)">
+                <div :class="{searchIcon:true,iconShow:isIconShow,iconHide:isIconHide}" @click="clickIcon($event)">
                     <span v-for="item in iconfontList" :key="item.id" :data-id="item.id"
                         :class="iconIndex == item.id ? 'iconSpan':''">
                         <i :class="item.className"></i>
@@ -34,18 +33,42 @@
                         {{item.title}}
                     </li>
                 </nav>
-
+            </div>
+            <!-- 格言模块 -->
+            <div :class="{note:true,noteShow:isNoteShow,noteHide:isNoteHide}"
+                @mouseover="noteAuthor = true" @mouseout="noteAuthor = false">
+                <span>「&nbsp;&nbsp;{{note.content}}」</span>
+                <span :class="noteAuthor?'noteAuthorShow':'noteAuthorHide'">——{{note.author}}&nbsp;&nbsp;{{note.works}}</span>
             </div>
             <!-- 底部说明模块 -->
             <h5><span>@&nbsp;2020&nbsp;Simon</span>&nbsp;|&nbsp;<span>关于</span></h5>
-
        </div>
 
         <!-- 时间涉及的模块 -->
-        <div :class="{function:true,functionShow:isFunctionShow,functionHide:isFunctionHide}" 
-            @click="timeBlur">
+        <div :class="{function:true,functionShow:isFunctionShow,functionHide:isFunctionHide}"
+            @click="clickModuleIcon($event)">
+            <div class="functionBox" v-for="item in iconList" :key="item.id" :data-url="item.url">
+                <div class="module">
+                    <svg class="icon" aria-hidden="true">
+                        <use :xlink:href="item.className"></use>
+                    </svg>
+                </div>
+                <span>{{item.title}}</span>
+            </div>
             <div class="functionBox">
-
+                <div class="module">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-sun"></use>
+                    </svg>
+                </div>
+                <span>深色主题</span>
+            </div>
+            <div class="functionBox">
+                <div class="module">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-add"></use>
+                    </svg>
+                </div>
             </div>
         </div>
 
@@ -70,6 +93,8 @@ export default {
             isIconHide:false,//页面初始化不添加iconBoxHide动画
             isEnlargeGlass:false,//页面初始化不添加enlargeGlass动画
             isNarrowGlass:true,//页面初始化不添加narrowGlass动画
+            isNoteShow:false,//页面初始化不添加noteShow动画
+            isNoteHide:false,//页面初始化不添加noteHide动画
             iconfontList:[//浏览器种类
                 {id:0,className:'iconfont icon-baidu'},
                 {id:1,className:'iconfont icon-guge'},
@@ -87,6 +112,23 @@ export default {
                 {id:2,path:`http://api.bing.com/qsonhs.aspx?type=cb&cb=jsonpCB&q=`}
             ],
             inputSearchList:[],//搜索框搜寻的数据
+            noteAuthor:false,
+            note:{
+                content:'',
+                author:'',
+                works:''
+            },
+            iconList:[
+                {id:0,className:'#icon-github',url:'https://github.com/Linn924',title:'GitHub'},
+                {id:1,className:'#icon-vue',url:'https://cn.vuejs.org/',title:'Vue.js'},
+                {id:2,className:'#icon-mdn',url:'https://developer.mozilla.org/zh-CN/',title:'MDN'},
+                {id:3,className:'#icon-csdn',url:'https://mp.csdn.net/console/article',title:'CSDN'},
+                {id:4,className:'#icon-jquery',url:'https://jquery.com/',title:'jQuery'},
+                {id:5,className:'#icon-bilibili',url:'https://www.bilibili.com/',title:'bilibili'},
+                {id:6,className:'#icon-disk',url:'https://pan.baidu.com/',title:'百度云'},
+                {id:7,className:'#icon-wallpaper',url:'https://github.com/Linn924',title:'壁纸'},
+                {id:8,className:'#icon-translate',url:'https://fanyi.baidu.com/translate',title:'百度翻译'}
+            ]
         }
     },
     mounted(){
@@ -130,11 +172,29 @@ export default {
         flagGlass(value){
             if(value){
                 var timer = setTimeout(()=>{
-                    document.addEventListener('click',this.addevent)
+                    document.addEventListener('click',this.addeventGlass)
                 },100)
             }else{
                 clearTimeout(timer)
-                document.removeEventListener('click',this.addevent)
+                document.removeEventListener('click',this.addeventGlass)
+            }
+        },
+        //监听点击时间 添加点击事件和移出点击事件
+        flagTime(value){
+            if(value){
+                var timer = setTimeout(()=>{
+                    document.addEventListener('click',this.addeventTime)
+                },100)
+            }else{
+                clearTimeout(timer)
+                document.removeEventListener('click',this.addeventTime)
+            }
+        },
+        //监听搜索的关键词是否有数据，有则把便签隐藏
+        inputSearchList(newVal){
+            if(newVal.length > 0){
+                this.isNoteShow = false
+                this.isNoteHide = true
             }
         }
     },
@@ -147,7 +207,7 @@ export default {
             this.time = h + ':' + m
         },
         //搜索界面添加点击事件
-        addevent(e){
+        addeventGlass(e){
             if(e.target.className !='iconSpan' 
             && e.target.nodeName.toLowerCase() != 'input' 
             && e.target.nodeName.toLowerCase() != 'li'){
@@ -159,10 +219,22 @@ export default {
                 this.isIconHide = true
                 this.isEnlargeGlass = false
                 this.isNarrowGlass = true
+                this.isNoteShow = false
+                this.isNoteHide = true
                 this.flag = false
                 this.inputValue = ''
                 this.inputSearchList = []
                 this.iconIndex = 0
+            }  
+        },
+        addeventTime(e){
+            if(e.target.className !='functionBox' && e.target.nodeName.toLowerCase() != 'h1'){
+                this.isNoteShow = false
+                this.isNoteHide = true
+                this.flag = false
+                this.flagTime = false
+                this.isFunctionShow = false
+                this.isFunctionHide = true
             }  
         },
         //鼠标移入搜索框
@@ -188,7 +260,9 @@ export default {
             this.flag = true
             this.isIconShow = true
             this.isIconHide = false
-            this.blur = true
+            this.isNoteShow = true
+            this.isNoteHide = false
+            this.getNote()
             this.$nextTick( () =>{
               this.$refs.input.focus()
           })
@@ -197,19 +271,12 @@ export default {
         clickTime(){
             setTimeout(() => {
                 this.flag = true
-                this.flagTime = true
-                this.isFunctionShow = true
-                this.isFunctionHide = false
             },1)
-        },
-        //点击时间以外的区域
-        timeBlur(){
-            if(this.flagTime){
-                this.flag = false
-                this.flagTime = false
-                this.isFunctionShow = false
-                this.isFunctionHide = true
-            }
+            this.flagTime = true
+            this.isFunctionShow = true
+            this.isFunctionHide = false
+            this.isNoteShow = false
+            this.isNoteHide = false
         },
         //通过冒泡事件 在父元素上绑定点击事件
         clickIcon(e){
@@ -229,7 +296,19 @@ export default {
         clickKeyWords(e){
             //通过自定义属性来得到要打开的网址
             window.open(e.target.dataset.url)
-        }
+        },
+        //获取格言警句
+        async getNote(){
+            const {data:res} = await this.$http.get('https://v1.hitokoto.cn/?c=d&amp;c=i&amp;encode=json')
+            this.note.content = res.hitokoto
+            this.note.author = res.from_who ==  null ? '' : res.from_who + '/'
+            this.note.works = res.from ==  null ? '' : res.from
+        },
+        //通过冒泡事件 在父元素上绑定点击事件
+        clickModuleIcon(e){
+            //通过自定义属性来得到要打开的网址
+            window.open(e.target.dataset.url)
+        },
     }
 }
 </script>
@@ -255,6 +334,20 @@ export default {
         position: relative; 
         transition:all .15s;
         background-image: radial-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%),radial-gradient(rgba(0,0,0,0) 33%,rgba(0,0,0,0.3) 166%);
+    }
+    .function{
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: -1;
+        width: 600px;
+        height: 200px;
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        grid-template-rows: auto;
+        column-gap: 50px;
+        row-gap: 20px;
     }
 }
 
@@ -315,7 +408,7 @@ export default {
                 font-size: 14px;
             }
         }
-        .icon{
+        .searchIcon{
             position: absolute;
             top: 5px;
             left: 50%;
@@ -359,7 +452,7 @@ export default {
         display: flex;
         flex-direction: column;
         width: 560px;
-        background-color:rgba(255, 255, 255, .1);
+        background-color:rgba(255, 255, 255, .2);
         backdrop-filter: blur(30px);
         list-style: none;
         border-radius: 15px;
@@ -376,21 +469,65 @@ export default {
             &:last-child{border-radius: 0 0 15px 15px;}
         }
     }
+    .note{
+        position: absolute;
+        bottom: 12vh;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all .15s;
+        z-index: -1;
+        span{
+            display: block;
+            padding: 5px 0;
+            color: #fff;
+            font-size: 14px;
+            cursor: default;
+            &:last-child{
+                opacity: 0;
+            }
+        }
+        &:hover{
+            background-color:rgba(255, 255, 255, .1);
+            backdrop-filter: blur(8px);
+        }
+    }
 }
 
-
 .function{
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    transform: translateY(-100vh);
-    z-index: -1;
-    display: grid;
-    place-content: center center;
     .functionBox{
-        width: 660px;
-        height: 600px;
-        border: 1px solid red;
+        width: 80px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+        cursor: pointer;
+        &:hover .module{background-color: rgba(255,255,255, .8);}
+        &:last-child .module{background-color: rgba(68,69,61,.8);}
+        .module{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255,255,255, .5);
+            backdrop-filter: blur(30px);
+            border-radius: 10px;
+            pointer-events: none;
+            transition: all .15s;
+
+        }
+        span{
+            color: #fff;
+            font-size: 10px;
+            margin-top: 5px;
+            pointer-events: none;
+        }
     }
 }
 
@@ -416,10 +553,10 @@ export default {
     animation: searchHide .15s linear forwards;
 }
 .functionShow{
-    animation: functionShow .15s linear forwards;
+    animation: functionShow .2s linear forwards;
 }
 .functionHide{
-    animation: functionHide .15s linear forwards;
+    animation: functionHide .2s linear forwards;
 }
 .iconShow{
     animation: iconShow .15s linear forwards;
@@ -430,7 +567,18 @@ export default {
 .iconSpan{
     background-color:#f39c12!important;
 }
-
+.noteShow{
+    animation: noteShow .15s linear forwards;
+}
+.noteHide{
+    animation: noteHide .15s linear forwards;
+}
+.noteAuthorShow{
+    animation: noteAuthorShow .15s linear forwards;
+}
+.noteAuthorHide{
+    animation: noteAuthorHide .15s linear forwards;
+}
 
 @keyframes enlarge{
     from{width: 250px;}
@@ -463,5 +611,21 @@ export default {
 @keyframes searchHide {
     from{opacity: 1;z-index: 0;}
     to{opacity: 0;z-index: -1;}
+}
+@keyframes noteShow {
+    from{opacity: 0;z-index: -1;}
+    to{opacity: 1;z-index: 0;}
+}
+@keyframes noteHide {
+    from{opacity: 1;z-index: 0;}
+    to{opacity: 0;z-index: -1;}
+}
+@keyframes noteAuthorShow {
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
+@keyframes noteAuthorHide {
+    from{opacity: 1;}
+    to{opacity: 0;}
 }
 </style>

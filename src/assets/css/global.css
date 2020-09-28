@@ -8,6 +8,14 @@ body,
     height:100vh;
 }
 
+.icon {
+    width: 2em;
+    height: 2em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
 /* 浏览器滚动条样式 */
 html{overflow-x: hidden;}
 html::-webkit-scrollbar {width: 6px;}
