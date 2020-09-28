@@ -1,38 +1,47 @@
 <template>
-    <div id="homepage">
+    <div id="indexPage">
 
         <!-- 背景图 -->
-        <img src="https://cdn.jsdelivr.net/gh/MobiusBeta/assets/images/BG_A_Default_1.jpg"
+        <img src="https://s1.ax1x.com/2020/09/28/0E5yvT.jpg"
         :style="{transform:flag?'scale(1.1)':'scale(1)'}">
 
-        <!-- 初始界面 -->
-       <div class="begin" :style="{'backdropFilter':flag?'blur(10px)':''}">
+        <!-- 开始界面 -->
+       <div class="start" :style="{'backdropFilter':flag?'blur(10px)':''}">
+
+            <!-- 时间模块 -->
             <h1 @click="clickTime">{{time}}</h1>
+            <!-- 搜索框涉及的所有模块 -->
             <div :class="flagTime?'search searchHide':'search searchShow'" 
                 @mouseover="enlarge" @mouseout="narrow">
+                <!-- 搜索框模块 -->
                 <input type="text" :class="{enlarge:isEnlarge,narrow:isNarrow}"
-                 ref="input" v-model="inputValue" @keyup="search">
+                    ref="input" v-model="inputValue" @keyup="search">
+                <!-- 搜索框的遮罩模块 -->
                 <div 
-                    :class="{glass:true,enlarge:isEnlarge,narrow:isNarrow}"
+                    :class="{glass:true,enlarge:isEnlarge,narrow:isNarrow,enlargeGlass:isEnlargeGlass,narrowGlass:isNarrowGlass}"
                     @click="clickGlass" v-show="beGlass">
-                    <span>Search</span>
                 </div>
+                <!-- 可选择的搜索引擎模块 -->
                 <div :class="{icon:true,iconShow:isIconShow,iconHide:isIconHide}" @click="clickIcon($event)">
                     <span v-for="item in iconfontList" :key="item.id" :data-id="item.id"
                         :class="iconIndex == item.id ? 'iconSpan':''">
                         <i :class="item.className"></i>
                     </span>
                 </div>
+                <!-- 关键词模块 -->
                 <nav @click="clickKeyWords($event)">
-                   <li v-for="(item,index) in inputSearchList" :key="index" :data-url="item.url">
-                       {{item.title}}
-                   </li>
+                    <li v-for="(item,index) in inputSearchList" :key="index" :data-url="item.url">
+                        {{item.title}}
+                    </li>
                 </nav>
+
             </div>
+            <!-- 底部说明模块 -->
             <h5><span>@&nbsp;2020&nbsp;Simon</span>&nbsp;|&nbsp;<span>关于</span></h5>
+
        </div>
 
-        <!-- 点击时间后进入的界面 -->
+        <!-- 时间涉及的模块 -->
         <div :class="{function:true,functionShow:isFunctionShow,functionHide:isFunctionHide}" 
             @click="timeBlur">
             <div class="functionBox">
@@ -59,6 +68,8 @@ export default {
             isNarrow:false,//页面初始化不添加narrow动画
             isIconShow:false,//页面初始化不添加iconBoxShow动画
             isIconHide:false,//页面初始化不添加iconBoxHide动画
+            isEnlargeGlass:false,//页面初始化不添加enlargeGlass动画
+            isNarrowGlass:true,//页面初始化不添加narrowGlass动画
             iconfontList:[//浏览器种类
                 {id:0,className:'iconfont icon-baidu'},
                 {id:1,className:'iconfont icon-guge'},
@@ -128,7 +139,7 @@ export default {
         }
     },
     methods:{
-        //处理时间和日期
+        //当前时间
         nowTime(){
             var t = new Date()
             var h = t.getHours() > 9 ? t.getHours() : '0' + t.getHours()
@@ -137,28 +148,37 @@ export default {
         },
         //搜索界面添加点击事件
         addevent(e){
-            if(e.target.className !='iconSpan' && e.target.nodeName.toLowerCase() != 'input' && e.target.nodeName.toLowerCase() != 'li'){
+            if(e.target.className !='iconSpan' 
+            && e.target.nodeName.toLowerCase() != 'input' 
+            && e.target.nodeName.toLowerCase() != 'li'){
                 this.beGlass = true
                 this.flagGlass = false
                 this.isEnlarge = false
                 this.isNarrow = true
                 this.isIconShow = false
                 this.isIconHide = true
+                this.isEnlargeGlass = false
+                this.isNarrowGlass = true
                 this.flag = false
                 this.inputValue = ''
                 this.inputSearchList = []
+                this.iconIndex = 0
             }  
         },
         //鼠标移入搜索框
         enlarge(){
             this.isEnlarge = true
             this.isNarrow = false
+            this.isEnlargeGlass = true
+            this.isNarrowGlass = false
         },
         //鼠标移出搜索框
         narrow(){
             if(!this.flagGlass){
                 this.isEnlarge = false
                 this.isNarrow = true
+                this.isEnlargeGlass = false
+                this.isNarrowGlass = true
             }
         },
         //点击遮罩在搜索框的毛玻璃层
@@ -215,7 +235,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#homepage{
+
+#indexPage{
     width: 100%;
     height: 100vh;
     overflow: hidden;
@@ -229,14 +250,16 @@ export default {
         position: absolute;
         transition:all .15s;
     }
-    .begin{
+    .start{
         height: 100%;
         position: relative; 
         transition:all .15s;
         background-image: radial-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%),radial-gradient(rgba(0,0,0,0) 33%,rgba(0,0,0,0.3) 166%);
     }
 }
-.begin{
+
+
+.start{
     h1{
         position: absolute;
         top: 12vh;
@@ -255,8 +278,8 @@ export default {
         left: 50%;
         transform: translateX(-50%);
         input{
-            width: 230px;
-            padding: 13px 15px;
+            width: 250px;
+            height: 40px;
             outline: none;
             border: 0;
             border-radius: 20px;
@@ -268,25 +291,28 @@ export default {
             position: absolute;
             top: 0;
             left: 0;
-            width: 230px;
-            padding: 11.5px 15px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            background-color:#A0B6C8;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-            color: #FAFBFC;
-            font-size: 14px;
-            font-weight: 100;
-            display: grid;
-            place-content: center center;
-            span{
-                pointer-events: none;
-                transition: .15s;
+            width: 250px;
+            height: 40px;
+            cursor: text;
+            &::before{
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 40px;
+                transform: translate(-50%,-50%);
+                border-radius: 20px;
+                filter: blur(10px);
+                transition: all .2s;
             }
-            &:hover{
-                cursor: text;
-                background-color: rgba(160,182,200, .5);
-                span{color: #000;}
+            &::after{
+                content: "Search";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                color:#fff;
+                font-size: 14px;
             }
         }
         .icon{
@@ -295,11 +321,11 @@ export default {
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            z-index: -1;    
+            z-index: -1; 
             span{
                 display: inline-block;
                 padding: 8px 30px;
-                background-color: #B2C7D7;
+                background-color: #D2922B;
                 border-radius: 20px;
                 transition: all .15s;
                 cursor: pointer;
@@ -314,7 +340,7 @@ export default {
     }
     h5{
         position: absolute;
-        bottom: 1vh;
+        bottom: 2vh;
         left: 50%;
         transform: translateX(-50%);
         color: #919399;
@@ -327,13 +353,13 @@ export default {
     }
     nav{
         position: absolute;
-        top: 120px;
+        top: 110px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
         flex-direction: column;
         width: 560px;
-        background-color:rgba(255, 255, 255, .2);
+        background-color:rgba(255, 255, 255, .1);
         backdrop-filter: blur(30px);
         list-style: none;
         border-radius: 15px;
@@ -345,12 +371,14 @@ export default {
             font-size: 14px;
             transition: all .15s;
             cursor: pointer;
-            &:hover{background-color: rgba(160,182,200, .5);padding: 5px 30px;}
+            &:hover{background-color: rgba(243,155,18);padding: 5px 30px;color: #fff;}
             &:first-child{border-radius: 15px 15px 0 0;}
             &:last-child{border-radius: 0 0 15px 15px;}
         }
     }
 }
+
+
 .function{
     width: 100vw;
     height: 100vh;
@@ -365,40 +393,52 @@ export default {
         border: 1px solid red;
     }
 }
-.search .enlarge{
+
+
+.enlarge{
     animation: enlarge .15s linear forwards;
 }
-.search .narrow{
+.narrow{
     animation: narrow .15s linear forwards;
 }
-.begin .searchShow{
+.enlargeGlass::before{
+   animation: enlarge .15s linear forwards;
+   background-color:rgba(157,96,8,.8);
+}
+.narrowGlass::before{
+    animation: narrow .15s linear forwards;
+    background-color:rgba(157,96,8);
+}
+.searchShow{
     animation: searchShow .15s linear forwards;
 }
-.begin .searchHide{
+.searchHide{
     animation: searchHide .15s linear forwards;
 }
-#homepage .functionShow{
+.functionShow{
     animation: functionShow .15s linear forwards;
 }
-#homepage .functionHide{
+.functionHide{
     animation: functionHide .15s linear forwards;
 }
-#homepage .iconShow{
+.iconShow{
     animation: iconShow .15s linear forwards;
 }
-#homepage .iconHide{
+.iconHide{
     animation: iconHide .15s linear forwards;
 }
-#homepage .iconSpan{
-    background-color: #C4D5E1!important;
+.iconSpan{
+    background-color:#f39c12!important;
 }
+
+
 @keyframes enlarge{
-    from{width: 230px;}
+    from{width: 250px;}
     to{width: 530px;}
 }
 @keyframes narrow{
     from{width: 530px;}
-    to{width: 230px;}
+    to{width: 250px;}
 }
 @keyframes iconShow {
     from{opacity: 0;}
