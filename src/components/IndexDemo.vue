@@ -17,11 +17,13 @@
                     ref="input" v-model="inputValue" @keyup="search">
                 <!-- 搜索框的遮罩模块 -->
                 <div 
-                    :class="{glass:true,enlarge:isEnlarge,narrow:isNarrow,enlargeGlass:isEnlargeGlass,narrowGlass:isNarrowGlass}"
+                    :class="{glass:true,enlarge:isEnlarge,narrow:isNarrow,
+                    enlargeGlass:isEnlargeGlass,narrowGlass:isNarrowGlass}"
                     @click="clickGlass" v-show="beGlass">
                 </div>
                 <!-- 可选择的搜索引擎模块 -->
-                <div :class="{searchIcon:true,iconShow:isIconShow,iconHide:isIconHide}" @click="clickIcon($event)">
+                <div :class="{searchIcon:true,iconShow:isIconShow,iconHide:isIconHide}"
+                    @click="clickIcon($event)">
                     <span v-for="item in iconfontList" :key="item.id" :data-id="item.id"
                         :class="iconIndex == item.id ? 'iconSpan':''">
                         <i :class="item.className"></i>
@@ -29,7 +31,8 @@
                 </div>
                 <!-- 关键词模块 -->
                 <nav @click="clickKeyWords($event)">
-                    <li v-for="(item,index) in inputSearchList" :key="index" :data-url="item.url">
+                    <li v-for="(item,index) in inputSearchList" 
+                        :key="index" :data-url="item.url">
                         {{item.title}}
                     </li>
                 </nav>
@@ -37,8 +40,10 @@
             <!-- 格言模块 -->
             <div :class="{note:true,noteShow:isNoteShow,noteHide:isNoteHide}"
                 @mouseover="noteAuthor = true" @mouseout="noteAuthor = false">
-                <span>「&nbsp;&nbsp;{{note.content}}」</span>
-                <span :class="noteAuthor?'noteAuthorShow':'noteAuthorHide'">——{{note.author}}&nbsp;&nbsp;{{note.works}}</span>
+                <span>{{note.content}}</span>
+                <span :class="noteAuthor?'noteAuthorShow':'noteAuthorHide'">
+                   {{note.author}}{{note.works}}
+                </span>
             </div>
             <!-- 底部说明模块 -->
             <h5><span>@&nbsp;2020&nbsp;Simon</span>&nbsp;|&nbsp;<span>关于</span></h5>
@@ -46,7 +51,8 @@
 
         <!-- 时间涉及的模块 -->
         <div :class="{function:true,functionShow:isFunctionShow,functionHide:isFunctionHide}"
-            @click="clickModuleIcon($event)">
+            @click="isFunction ? clickFunction($event): clickModuleIcon($event)" 
+            @mouseover="overFunction($event)">
             <div class="functionBox" v-for="item in iconList" :key="item.id" :data-url="item.url">
                 <div class="module">
                     <svg class="icon" aria-hidden="true">
@@ -112,13 +118,13 @@ export default {
                 {id:2,path:`http://api.bing.com/qsonhs.aspx?type=cb&cb=jsonpCB&q=`}
             ],
             inputSearchList:[],//搜索框搜寻的数据
-            noteAuthor:false,
-            note:{
+            noteAuthor:false,//控制显示格言作者
+            note:{//格言内容
                 content:'',
                 author:'',
                 works:''
             },
-            iconList:[
+            iconList:[//moduleIcon内容
                 {id:0,className:'#icon-github',url:'https://github.com/Linn924',title:'GitHub'},
                 {id:1,className:'#icon-vue',url:'https://cn.vuejs.org/',title:'Vue.js'},
                 {id:2,className:'#icon-mdn',url:'https://developer.mozilla.org/zh-CN/',title:'MDN'},
@@ -128,7 +134,8 @@ export default {
                 {id:6,className:'#icon-disk',url:'https://pan.baidu.com/',title:'百度云'},
                 {id:7,className:'#icon-wallpaper',url:'https://github.com/Linn924',title:'壁纸'},
                 {id:8,className:'#icon-translate',url:'https://fanyi.baidu.com/translate',title:'百度翻译'}
-            ]
+            ],
+            isFunction:false,//控制function模块切换点击事件
         }
     },
     mounted(){
@@ -208,9 +215,7 @@ export default {
         },
         //搜索界面添加点击事件
         addeventGlass(e){
-            if(e.target.className !='iconSpan' 
-            && e.target.nodeName.toLowerCase() != 'input' 
-            && e.target.nodeName.toLowerCase() != 'li'){
+            if(e.target.className == 'start'){
                 this.beGlass = true
                 this.flagGlass = false
                 this.isEnlarge = false
@@ -227,15 +232,16 @@ export default {
                 this.iconIndex = 0
             }  
         },
+        //功能界面添加点击事件
         addeventTime(e){
-            if(e.target.className !='functionBox' && e.target.nodeName.toLowerCase() != 'h1'){
-                this.isNoteShow = false
-                this.isNoteHide = true
+            if(e.target.className == 'start'){
                 this.flag = false
                 this.flagTime = false
                 this.isFunctionShow = false
                 this.isFunctionHide = true
-            }  
+                this.isNoteShow = false
+                this.isNoteHide = true
+            } 
         },
         //鼠标移入搜索框
         enlarge(){
@@ -260,23 +266,19 @@ export default {
             this.flag = true
             this.isIconShow = true
             this.isIconHide = false
+            this.getNote()
             this.isNoteShow = true
             this.isNoteHide = false
-            this.getNote()
             this.$nextTick( () =>{
               this.$refs.input.focus()
           })
         },
         //点击时间
         clickTime(){
-            setTimeout(() => {
-                this.flag = true
-            },1)
+            setTimeout(() => {this.flag = true},1)
             this.flagTime = true
             this.isFunctionShow = true
             this.isFunctionHide = false
-            this.isNoteShow = false
-            this.isNoteHide = false
         },
         //通过冒泡事件 在父元素上绑定点击事件
         clickIcon(e){
@@ -300,14 +302,21 @@ export default {
         //获取格言警句
         async getNote(){
             const {data:res} = await this.$http.get('https://v1.hitokoto.cn/?c=d&amp;c=i&amp;encode=json')
-            this.note.content = res.hitokoto
-            this.note.author = res.from_who ==  null ? '' : res.from_who + '/'
+            this.note.content ='「' + res.hitokoto + '」'
+            this.note.author = res.from_who ==  null ? '--' : '--' + res.from_who + '/'
             this.note.works = res.from ==  null ? '' : res.from
         },
-        //通过冒泡事件 在父元素上绑定点击事件
+        //判断鼠标是否是在classList对象中有function的模块上移动
+        overFunction(e){
+            this.isFunction = Object.values(e.target.classList).includes('function')
+        },
+        //点击moduleIcon跳转页面
         clickModuleIcon(e){
-            //通过自定义属性来得到要打开的网址
             window.open(e.target.dataset.url)
+        },
+        //点击除去moduleIcon且在function上的位置 禁用冒泡
+        clickFunction(e){
+            e.stopPropagation()
         },
     }
 }
@@ -321,6 +330,7 @@ export default {
     overflow: hidden;
     box-sizing: border-box;
     position: relative;
+    user-select:none;
     transition:all .15s;
     >img{
         width: 100%;
@@ -342,12 +352,12 @@ export default {
         transform: translateX(-50%);
         z-index: -1;
         width: 600px;
-        height: 200px;
         display: grid;
         grid-template-columns: repeat(5,1fr);
         grid-template-rows: auto;
         column-gap: 50px;
         row-gap: 20px;
+
     }
 }
 
@@ -553,10 +563,10 @@ export default {
     animation: searchHide .15s linear forwards;
 }
 .functionShow{
-    animation: functionShow .2s linear forwards;
+    animation: functionShow .3s linear forwards;
 }
 .functionHide{
-    animation: functionHide .2s linear forwards;
+    animation: functionHide .1s linear forwards;
 }
 .iconShow{
     animation: iconShow .15s linear forwards;
