@@ -92,13 +92,11 @@ export default {
       time:'',//当前时间
       date:'',//当前日期
       containerList:[//功能数据
-          {id:0,path:'/blog',src:require('../assets/image/blog.png'),title:'个人博客'},
-          {id:1,path:'/link',src:require('../assets/image/nav.png'),title:'简约导航'},
-          {id:2,path:'/home',src:require('../assets/image/home.png'),title:'个人中心'},
-          {id:3,path:'/life',src:require('../assets/image/life.png'),title:'生活乐趣'},
-          {id:4,path:'/link',src:require('../assets/image/complete.png'),title:'完整样本'},
-          {id:5,path:'/link',src:require('../assets/image/effect.png'),title:'效果样板'},
-          {id:6,path:'/link',src:require('../assets/image/message.png'),title:'留言板'}
+          {id:0,path:'/home',src:require('../assets/image/home.png'),title:'个人中心'},
+          {id:1,path:'/life',src:require('../assets/image/life.png'),title:'生活乐趣'},
+          {id:2,path:'/link',src:require('../assets/image/complete.png'),title:'完整样本'},
+          {id:3,path:'/link',src:require('../assets/image/effect.png'),title:'效果样板'},
+          {id:4,path:'/link',src:require('../assets/image/message.png'),title:'留言板'}
       ],
       imgList:[],//图片数据
       selectImgIndex:-1,////选中的壁纸的下标

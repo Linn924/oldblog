@@ -118,9 +118,7 @@ export default {
       //导航数据
       routes:[
         {id:0,path:'/home',content:'Home'},
-        {id:1,path:'/life',content:'Life'},
-        {id:2,path:'/nav',content:'Nav'},
-        {id:3,path:'/blog',content:'Blog'}
+        {id:1,path:'/life',content:'Life'}
       ],
       //轮播图
       img: [

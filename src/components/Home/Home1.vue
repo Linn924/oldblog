@@ -70,9 +70,7 @@ export default {
         return {
             navList:[//导航数据
                 {id:0,path:'/home',content:'Home'},
-                {id:1,path:'/life',content:'Life'},
-                {id:2,path:'/nav',content:'Nav'},
-                {id:3,path:'/blog',content:'Blog'},
+                {id:1,path:'/life',content:'Life'}
             ],
             famous:{//名人名言数据
                 content:'',

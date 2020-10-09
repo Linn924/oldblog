@@ -3,7 +3,7 @@ import router from './router'
 import VueJsonp from 'vue-jsonp'
 import store from './store'
 import './assets/css/global.css'
-import './assets/css/atom-one-dark.css'
+// import './assets/css/atom-one-dark.css'
 import animate from 'animate.css'
 import './assets/font/iconfont.css'
 import './assets/font/iconfont.js'
@@ -25,12 +25,12 @@ Vue.config.productionTip = false
 Vue.use(VueJsonp)
 Vue.use(animate)
 
-Vue.directive('highlight', function (el) {
-  let blocks = el.querySelectorAll('pre code');
-  blocks.forEach((block) => {
-    hljs.highlightBlock(block)
-  })
-})
+// Vue.directive('highlight', function (el) {
+//   let blocks = el.querySelectorAll('pre code');
+//   blocks.forEach((block) => {
+//     hljs.highlightBlock(block)
+//   })
+// })
 
 //解决路由跳转报错（Avoided redundant navigation to current location ）
 const originalPush = VueRouter.prototype.push
