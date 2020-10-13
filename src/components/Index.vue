@@ -10,7 +10,7 @@
     </div>
 
     <!-- 背景图 -->
-    <img :src="bgPath" :class="imgAnimate ? 'imgAnimateLast' : 'imgAnimateFirst'">
+    <img src="https://s1.ax1x.com/2020/10/03/03oSHJ.jpg" :class="imgAnimate ? 'imgAnimateLast' : 'imgAnimateFirst'">
 
     <!-- 内容模块 -->
     <section :class="sectionAnimate ? 'sectionAnimateLast' : 'sectionAnimateFirst'">

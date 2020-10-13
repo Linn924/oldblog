@@ -9,18 +9,13 @@ body,
 }
 
 .icon {
-    width: 2em;
-    height: 2em;
+    width: 1em;
+    height: 1em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
 }
 
-/* 浏览器滚动条样式 */
-html{overflow-x: hidden;}
-html::-webkit-scrollbar {width: 6px;}
-html::-webkit-scrollbar-thumb {background-color: #4E4F50;border-radius: 3px;}
-html::-webkit-scrollbar-track{background-color: #1B1D1F;}
 a{
     text-decoration: none;
 }

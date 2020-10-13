@@ -3,13 +3,11 @@ import router from './router'
 import VueJsonp from 'vue-jsonp'
 import store from './store'
 import './assets/css/global.css'
-// import './assets/css/atom-one-dark.css'
 import animate from 'animate.css'
-import './assets/font/iconfont.css'
-import './assets/font/iconfont.js'
 
 // axios.defaults.baseURL='http://139.196.210.43:0924/'
 axios.defaults.baseURL='http://127.0.0.1:8888/'
+
 axios.interceptors.request.use(config => {
   config.headers.Authorization = window.sessionStorage.getItem('token')
   return config
@@ -25,12 +23,6 @@ Vue.config.productionTip = false
 Vue.use(VueJsonp)
 Vue.use(animate)
 
-// Vue.directive('highlight', function (el) {
-//   let blocks = el.querySelectorAll('pre code');
-//   blocks.forEach((block) => {
-//     hljs.highlightBlock(block)
-//   })
-// })
 
 //解决路由跳转报错（Avoided redundant navigation to current location ）
 const originalPush = VueRouter.prototype.push
